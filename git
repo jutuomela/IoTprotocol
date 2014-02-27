@@ -1,0 +1,9 @@
+
+git clone <osoite>
+
+git add * 
+
+git commit -m " " 
+git push 
+
+git pull
