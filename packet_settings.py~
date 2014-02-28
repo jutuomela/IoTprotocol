@@ -6,7 +6,6 @@ class packet_settings():
 	global version_length = 4
 	global options_length = 4
 	global seq_num_lenght = 24
-	
 	global version_shift = 28
 	global type_shift = 28
 	global options_shift = 24

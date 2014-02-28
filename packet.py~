@@ -5,7 +5,7 @@ class packet():
 	global version = 1
 	
 	def get_packet():
-		
+		return struct.pack("4B4B", )
 	
 	def addHeader():
 		a = 0
