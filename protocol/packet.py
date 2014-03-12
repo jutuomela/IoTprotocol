@@ -1,26 +1,26 @@
 import struct
-import packet_settings
+import packet_settings 
 
 class Packet():
 	packet_content = b""
 	VERSION = 1
 		
 
-	def __init__(self):
-		self.addHeader()
+	def __init__(self,seq_num):
+		self.addHeader(seq_num)
 
-	def get_packet():
+	def get_packet(self):
 		return self.packet_content
 		
 	
-	def addHeader():
+	def addHeader(self,seq_num):
 		a = 0
 		a = a | (self.VERSION<<packet_settings.VERSION_SHIFT)
 		a = a | (0<<packet_settings.OPTIONS_SHIFT) #a = a || (options<<24)	
 		a = a | (seq_num<<packet_settings.SEQ_NUM_SHIFT) #remember to check sequence number before
 		self.packet_content += struct.pack(">L",a)
 		
-	def addSub(data):
+	def addSub(self,data):
 		
 		status = self.check_data(data)
 		if status != packet_settings.OKAY:
@@ -33,7 +33,7 @@ class Packet():
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
 
-	def addUnSub(data):
+	def addUnSub(self,data):
 
 		status = self.check_data(data)
 		if status != packet_settings.OKAY:
@@ -46,7 +46,7 @@ class Packet():
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
 
-	def addHeartBeat(data): #CHECK: is there data in a heartbeat
+	def addHeartBeat(self,data): #CHECK: is there data in a heartbeat
 
 		status = self.check_data(data)
 		if status != packet_settings.OKAY:
@@ -59,7 +59,7 @@ class Packet():
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
 
-	def addData(data):
+	def addData(self,data):
 		status = self.check_data(data)
 		if status != packet_settings.OKAY:
 			return(status)
@@ -71,7 +71,7 @@ class Packet():
 		self.packet_content += struct.pack(">L",a)
 		#TODO: actual data needs to be added too
 			
-	def addACK():
+	def addACK(self):
 		status = self.check_data(data)
 		if status != packet_settings.OKAY:
 			return(status)
@@ -83,7 +83,7 @@ class Packet():
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
 
-	def addNACK(data):
+	def addNACK(self,data):
 		status = self.check_data(data)
 		if status != packet_settings.OKAY:
 			return(status)
@@ -94,7 +94,7 @@ class Packet():
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
 
-	def addREQ(data):
+	def addREQ(self,data):
 		status = self.check_data(data)
 		if status != packet_settings.OKAY:
 			return(status)
