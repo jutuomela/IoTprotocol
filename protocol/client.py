@@ -25,7 +25,7 @@ class Client():
 		
 
 	def send_packet(self):
-		num_sent=self.client_socket.sendto(self.current_packet.get_packet(), clientaddr)
+		num_sent=self.client_socket.sendto(self.current_packet.get_packet(), self.client_addr)
 		if num_sent != len(self.current_packet.get_packet()):
 			print("Error: only part of packet sent")
 		self.current_packet = Packet() #TODO: header info needs to be added to packet

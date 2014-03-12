@@ -4,7 +4,6 @@ import socket, sys, os
 import sets
 import random
 import struct
-ïmport packet_settings
 
 
 class Client():

@@ -4,6 +4,7 @@ import socket, sys, os
 import sets
 import random
 import struct
+ïmport packet_settings
 
 
 class Client():
@@ -23,7 +24,7 @@ class Client():
 		
 
 	def send_packet():
-		num_sent=self.client_socket.sendto(self.current_packet.get _packet(), clientaddr)
+		num_sent=self.client_socket.sendto(self.current_packet.get_packet(), clientaddr)
 		if num_sent != len(self.current_packet.get_packet()):
 			print("Error: only part of packet sent")
 		self.current_packet = Packet() #TODO: header info needs to be added to packet

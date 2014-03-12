@@ -3,30 +3,30 @@ class packet_settings():
 
 	MAX_PACKET_LENGTH = 1012
 
-	#packet headder
-	global	VERSION= 1
-	global VERSION_LENGTH = 4
-	global OPTIONS_LENGTH = 4
-	global SEQ_NUM_LENGTH = 24
+	#packet header
+	VERSION= 1
+	VERSION_LENGTH = 4
+	OPTIONS_LENGTH = 4
+	SEQ_NUM_LENGTH = 24
 	
-	global VERSION_SHIFT = 28
-	global TYPE_SHIFT = 28
-	global OPTIONS_SHIFT = 24
-	global SEQ_NUM_SHIFT = 0
-	global CHUNK_LEN_SHIFT = 0
+	VERSION_SHIFT = 28
+	TYPE_SHIFT = 28
+	OPTIONS_SHIFT = 24
+	SEQ_NUM_SHIFT = 0
+	CHUNK_LEN_SHIFT = 0
 
 	#chunks
-	global TYPE_LENGTH = 4
-	global PACKET_OPTIONS_LENGTH = 4
-	global CHUNK_LENGTH_FIELD_LENGTH = 24
+	TYPE_LENGTH = 4
+	PACKET_OPTIONS_LENGTH = 4
+	CHUNK_LENGTH_FIELD_LENGTH = 24
 	
-	global TYPE_SUB = 0
-	global TYPE_UNSUB = 1
-	global TYPE_HB = 2
-	global TYPE_DC = 3
-	global TYPE_ACK = 4
-	global TYPE_NACK = 5
-	global TYPE_REQ = 6
+	TYPE_SUB = 0
+	TYPE_UNSUB = 1
+	TYPE_HB = 2
+	TYPE_DC = 3
+	TYPE_ACK = 4
+	TYPE_NACK = 5
+	TYPE_REQ = 6
 
 	#Status ints
 	OKAY = 0
