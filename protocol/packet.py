@@ -9,11 +9,11 @@ class Packet():
 	def __init__(self):
 		self.addHeader()
 
-	def get_packet():
+	def get_packet(self):
 		return self.packet_content
 		
 	
-	def addHeader():
+	def addHeader(self):
 		a = 0
 		a = a | (self.VERSION<<packet_settings.VERSION_SHIFT)
 		a = a | (0<<packet_settings.OPTIONS_SHIFT) #a = a || (options<<24)	
