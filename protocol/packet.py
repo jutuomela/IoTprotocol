@@ -21,7 +21,7 @@ class Packet():
 		a = a | (seq_num<<packet_settings.SEQ_NUM_SHIFT) #remember to check sequence number before
 		self.packet_content += struct.pack(">L",a)
 		
-	def addSub(self,data):
+	def addSub(self,data,option):
 		
 		status = self.check_data(data)
 		if status != packet_settings.OKAY:
@@ -29,12 +29,12 @@ class Packet():
 		
 		a = 0
 		a = a | (packet_settings.TYPE_SUB<<packet_settings.TYPE_SHIFT)
-		a = a | (0<<packet_settings.OPTIONS_SHIFT) #no options
+		a = a | (option<<packet_settings.OPTIONS_SHIFT) #option: initial subscription = 1, additional subscription = 0
 		a = a | (len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
 
-	def addUnSub(self,data):
+	def addUnSub(self,data,option):
 
 		status = self.check_data(data)
 		if status != packet_settings.OKAY:
@@ -42,24 +42,23 @@ class Packet():
 
 		a = 0
 		a = a | (packet_settings.TYPE_UNSUB<<packet_settings.TYPE_SHIFT)
-		a = a | (0<<packet_settings.OPTIONS_SHIFT) #no options
+		a = a | (option<<packet_settings.OPTIONS_SHIFT) #option: unSub one sensor = 0, unSub all=1
 		a = a | (len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
 
-	def addHeartBeat(self,data): #CHECK: is there data in a heartbeat
-
+	def addHeartBeat(self,data):
 		status = self.check_data(data)
 		if status != packet_settings.OKAY:
 			return(status)
-
+		
 		a = 0
 		a = a|(packet_settings.TYPE_HB<<packet_settings.TYPE_SHIFT)
 		a = a|(0<<packet_settings.OPTIONS_SHIFT) #no options
-		a = a|(len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
+		a = a|(0<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
-
+		
 	def addData(self,data):
 		status = self.check_data(data)
 		if status != packet_settings.OKAY:
@@ -70,9 +69,9 @@ class Packet():
 		a = a|(0<<packet_settings.OPTIONS_SHIFT) #no options
 		a = a|(len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
-		#TODO: actual data needs to be added too
+		self.packet_content += data
 			
-	def addACK(self):
+	def addACK(self,data):
 		status = self.check_data(data)
 		if status != packet_settings.OKAY:
 			return(status)
@@ -110,11 +109,11 @@ class Packet():
 	#enough room to add it along with the header
 	def check_data(self, data):
 		#check that data isnt too long
-		if(len(data) > pow(2,packet_settings.CHUNK_LENGTH_FIELD_LENGTH+1)-1):
+		if(len(data) > int(pow(2,packet_settings.CHUNK_LENGTH_FIELD_LENGTH)-1)):
 			return packet_settings.DATA_TOO_LONG
 		
 		#check that packet has enough space
-		if(len(data) + len(packet_content) + 1 < packet_settings.MAX_PACKET_LENGTH):  # the +1 is the header length
+		if(len(data) + len(self.packet_content) + 1 < packet_settings.MAX_PACKET_LENGTH):  # the +1 is the header length
 			return packet_settings.NOT_ENOUGH_SPACE
 			
 		return packet_settings.OKAY
