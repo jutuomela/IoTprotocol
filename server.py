@@ -6,6 +6,11 @@ import sys
 
 
 
-class server: 
+class Server: 
+
+	PORT = 1079
+
+	def start_listening(self):
+		
 
 
