@@ -10,11 +10,11 @@ import packet
 
 class Client():
 
-	packet_seq_num
-	sensors = Set([])
-	current_packet
-	client_addr
-	client_socket
+	packet_seq_num = 0
+	sensors = sets.Set([])
+	current_packet = 0
+	client_addr = 0
+	client_socket = 0
 	
 	def __init__(self, client_addr):
 		self.client_addr = client_addr
@@ -25,10 +25,10 @@ class Client():
 		
 
 	def send_packet(self):
-		num_sent=self.client_socket.sendto(self.current_packet.get_packet(), clientaddr)
+		num_sent=self.client_socket.sendto(self.current_packet.get_packet(), self.client_addr)
 		if num_sent != len(self.current_packet.get_packet()):
 			print("Error: only part of packet sent")
-		self.current_packet = Packet() #TODO: header info needs to be added to packet
+		self.current_packet = packet.Packet() #TODO: header info needs to be added to packet
 		
 		
 	def send_heartbeat(self):
