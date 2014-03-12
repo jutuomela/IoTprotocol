@@ -28,8 +28,8 @@ class Packet():
 			return(status)
 		
 		a = 0
-		a = a | (packet_settings.TYPE_SUB<<packet_settings.TYPE_SHIFT)
-		a = a | (option<<packet_settings.OPTIONS_SHIFT) #option: initial subscription = 1, additional subscription = 0
+		a = a | (packet_settings.TYPE_SUB<<packet_settings.CHUNK_TYPE_SHIFT)
+		a = a | (option<<packet_settings.CHUNK_OPTIONS_SHIFT) #option: initial subscription = 1, additional subscription = 0
 		a = a | (len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
@@ -41,8 +41,8 @@ class Packet():
 			return(status)
 
 		a = 0
-		a = a | (packet_settings.TYPE_UNSUB<<packet_settings.TYPE_SHIFT)
-		a = a | (option<<packet_settings.OPTIONS_SHIFT) #option: unSub one sensor = 0, unSub all=1
+		a = a | (packet_settings.TYPE_UNSUB<<packet_settings.CHUNK_TYPE_SHIFT)
+		a = a | (option<<packet_settings.CHUNK_OPTIONS_SHIFT) #option: unSub one sensor = 0, unSub all=1
 		a = a | (len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
@@ -53,8 +53,8 @@ class Packet():
 			return(status)
 		
 		a = 0
-		a = a|(packet_settings.TYPE_HB<<packet_settings.TYPE_SHIFT)
-		a = a|(0<<packet_settings.OPTIONS_SHIFT) #no options
+		a = a|(packet_settings.TYPE_HB<<packet_settings.CHUNK_TYPE_SHIFT)
+		a = a|(0<<packet_settings.CHUNK_OPTIONS_SHIFT) #no options
 		a = a|(0<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
@@ -65,8 +65,8 @@ class Packet():
 			return(status)
 			
 		a = 0
-		a = a|(packet_settings.TYPE_DC<<packet_settings.TYPE_SHIFT)
-		a = a|(0<<packet_settings.OPTIONS_SHIFT) #no options
+		a = a|(packet_settings.TYPE_DC<<packet_settings.CHUNK_TYPE_SHIFT)
+		a = a|(0<<packet_settings.CHUNK_OPTIONS_SHIFT) #no options
 		a = a|(len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
@@ -77,8 +77,8 @@ class Packet():
 			return(status)
 			
 		a = 0
-		a = a|(packet_settings.TYPE_ACK<<packet_settings.TYPE_SHIFT)
-		a = a|(0<<packet_settings.OPTIONS_SHIFT) #no options
+		a = a|(packet_settings.TYPE_ACK<<packet_settings.CHUNK_TYPE_SHIFT)
+		a = a|(0<<packet_settings.CHUNK_OPTIONS_SHIFT) #no options
 		a = a|(len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
@@ -88,8 +88,8 @@ class Packet():
 		if status != packet_settings.OKAY:
 			return(status)
 		a = 0
-		a = a|(packet_settings.TYPE_NACK<<packet_settings.TYPE_SHIFT)
-		a = a|(0<<packet_settings.OPTIONS_SHIFT) #no options
+		a = a|(packet_settings.TYPE_NACK<<packet_settings.CHUNK_TYPE_SHIFT)
+		a = a|(0<<packet_settings.CHUNK_OPTIONS_SHIFT) #no options
 		a = a|(len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
@@ -99,8 +99,8 @@ class Packet():
 		if status != packet_settings.OKAY:
 			return(status)
 		a = 0
-		a = a|(packet_settings.TYPE_REQ<<packet_settings.TYPE_SHIFT)
-		a = a|(0<<packet_settings.OPTIONS_SHIFT) #no options
+		a = a|(packet_settings.TYPE_REQ<<packet_settings.CHUNK_TYPE_SHIFT)
+		a = a|(0<<packet_settings.CHUNK_OPTIONS_SHIFT) #no options
 		a = a|(len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
