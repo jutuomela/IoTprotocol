@@ -4,7 +4,8 @@ import socket, sys, os
 import sets
 import random
 import struct
-ïmport packet_settings
+import packet_settings
+import packet
 
 
 class Client():
@@ -17,20 +18,20 @@ class Client():
 	
 	def __init__(self, client_addr):
 		self.client_addr = client_addr
-		self.client_socket = socket(AF_INET6, SOCK_DGRAM)
+		self.client_socket = socket(socket.AF_INET6, socket.SOCK_DGRAM)
 		
 		packet_seq_num = os.urandom(4)
 		self.packet_seq_num = struct.unpack("<L", packet_seq_num)
 		
 
-	def send_packet():
+	def send_packet(self):
 		num_sent=self.client_socket.sendto(self.current_packet.get_packet(), clientaddr)
 		if num_sent != len(self.current_packet.get_packet()):
 			print("Error: only part of packet sent")
 		self.current_packet = Packet() #TODO: header info needs to be added to packet
 		
 		
-	def send_heartbeat():
+	def send_heartbeat(self):
 		status=self.current_packet.addHeartBeat("")
 		
 		if(status==packet_settings.NOT_ENOUGH_SPACE):
