@@ -3,7 +3,7 @@
 import socket, os
 import sets
 import struct
-import packet_settings
+import packet_settings, packet_unpacker
 import packet
 
 
@@ -22,7 +22,7 @@ class Client():
 		packet_seq_num = os.urandom(4) % packet_settings.MAX_SEQ_NUM
 		self.packet_seq_num = struct.unpack("<L", packet_seq_num)
 		
-
+	##sends the packet that has been forming to the client
 	def send_packet(self):
 		num_sent=self.client_socket.sendto(self.current_packet.get_packet(), self.client_addr)
 		if num_sent != len(self.current_packet.get_packet()):
@@ -31,15 +31,16 @@ class Client():
 		self.current_packet = packet.Packet() #TODO: header info needs to be added to packet
 		
 		
-	
+	## called when we received a packet from a client
 	def received_packet_from_client(self, packet):
-		#TODO: unpack packet and do something with it
-		print("does nothing")
+		unpacker = packet_unpacker.Packet_unpacker() #unpack the packet
+		unpacker.unpack(packet)	
 		
+	## called when the server class the owns this client class has a packet from a sensor
 	def received_packet_from_sensor(self, sensor, data):
-		if sensor in self.sensor_list:
-			self.add_data(data);
-		
+		if sensor in self.sensor_list:	# check if the sensor is in the sensor list
+			self.add_data(data) #add the data to the current packet. 
+			return
 	
 		
 	## sends a heartbeat to the client
