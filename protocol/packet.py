@@ -13,6 +13,7 @@ class Packet():
 		return self.packet_content
 		
 	
+
 	def addHeader(self,seq_num):
 		a = 0
 		a = a | (self.VERSION<<packet_settings.VERSION_SHIFT)
