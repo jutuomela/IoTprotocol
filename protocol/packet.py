@@ -109,7 +109,7 @@ class Packet():
 	#enough room to add it along with the header
 	def check_data(self, data):
 		#check that data isnt too long
-		if(len(data) > pow(2,packet_settings.CHUNK_LENGTH_FIELD_LENGTH+1)-1):
+		if(len(data) > int(pow(2,packet_settings.CHUNK_LENGTH_FIELD_LENGTH)-1)):
 			return packet_settings.DATA_TOO_LONG
 		
 		#check that packet has enough space
