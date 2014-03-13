@@ -56,7 +56,8 @@ class Server:
 			
 			
 			
-			
+	def remove_client(self,client):
+		self.clients.remove(client)
 			
 			
 					
