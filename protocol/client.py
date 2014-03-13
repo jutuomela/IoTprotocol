@@ -34,7 +34,10 @@ class Client():
 	## called when we received a packet from a client
 	def received_packet_from_client(self, packet):
 		unpacker = packet_unpacker.Packet_unpacker() #unpack the packet
-		unpacker.unpack(packet)	
+		packet = unpacker.unpack(packet)
+		
+			
+		
 		
 	## called when the server class the owns this client class has a packet from a sensor
 	def received_packet_from_sensor(self, sensor, data):

@@ -5,7 +5,7 @@ import struct
 class Packet_unpacker():
 	
 	packet = 0
-	unpacked_packet = []
+	unpacked_packet = [] # [version, head options, seq_num, < chunk type, chunk options, chunk length, data >]
 	position = 0; 
 		
 	def unpack(self, packet):
@@ -42,7 +42,7 @@ class Packet_unpacker():
 			self.unpacked_packet.append(chunk_length)
 			
 			#unpack data if chunk length greater than 0
-			self.unpacked_packet.append(self.packet[self.position:self.position+self.chunk_length])
+			self.unpacked_packet.append(self.packet[self.position:self.position+chunk_length])
 			self.position+=chunk_length
 		
 	def get_bits(self, value, position, length):
