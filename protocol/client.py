@@ -104,7 +104,7 @@ class Client():
 			
 		elif(status==packet_settings.OKAY):
 			#if status okay do nothing
-			continue
+			pass
 		
 		else:
 			print("ERROR: unknown status code returned by add_data(self, data)")
