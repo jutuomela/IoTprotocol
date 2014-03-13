@@ -2,7 +2,7 @@
 import socket
 import sys
 import re
-
+import client
 
 
 
@@ -30,8 +30,8 @@ class Server:
 			#
 			sensorID = re.search("'dev_id':'(.*)','sensor_data'",data).group(1)
 			
-			for client in self.clients:
-				client.received_packet_from_sensor(client, sensorID, data)
+			for c in self.clients:
+				c.received_packet_from_sensor(sensorID, data)
 	
 				
 	def start_listening_client(self):
@@ -45,6 +45,18 @@ class Server:
 			sys.exit() #or do we want to exist, or just ignore it?
 		while 1:
 			data,addr = self.CLIENT.SOCKET.recvfrom(2000)
-			#
+			
+			for c in self.clients:
+				if c.client_addr == addr:
+					c.received_packet_from_client(data)
+					break
+				elif self.clients[-1] == c:
+					self.clients.append(client(addr))
+					self.clients[-1].received_packet_from_client(data)
+			
+			
+			
+			
+			
 			
 					
