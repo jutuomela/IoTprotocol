@@ -75,8 +75,8 @@ class Server():
 				if sock == self.SENSOR_SOCKET:
 					data,addr = self.SENSOR_SOCKET.recvfrom(2048)
 					print "SERVER: Sensor connected from (%s, %s)" % addr							#for testing 
-					
-					result = re.search("'dev_id':'(.*)','sensor_data'",data)
+					print "SERVER: " + data
+					result = re.search("'dev_id': '(.*)', 'sensor_data'",data)
 					
 					if result != None:
 						sensorID = result.group(1)
