@@ -17,7 +17,7 @@ class Packet():
 	def addHeader(self,seq_num):
 		a = 0
 		a = a | (self.VERSION<<packet_settings.VERSION_SHIFT)
-		a = a | (0<<packet_settings.OPTIONS_SHIFT) #a = a || (options<<24)	
+		a = a | (0<<packet_settings.OPTIONS_SHIFT)	
 		a = a | (seq_num<<packet_settings.SEQ_NUM_SHIFT) #remember to check sequence number before
 		self.packet_content += struct.pack(">L",a)
 		
