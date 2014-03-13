@@ -8,9 +8,13 @@ import re
 
 class Server: 
 
-	PORT = 1079
+	SENSOR_PORT = 1079
+	CLIENT_PORT = 1080
 	HOST = '' #localhost? 127.0.0.1
-	SOCKET = None
+	CLIENT_SOCKET = None
+	SENSOR_SOCKET = None
+	
+	clients = []## list of clients		## need to add clients
 	
 	def start_listening_sensor(self):
 		try:
