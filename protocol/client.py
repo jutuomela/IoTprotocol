@@ -5,16 +5,22 @@ import sets
 import struct
 import packet_settings, packet_unpacker
 import packet
+import threading
 
-
+#client class used in server to represent client
 class Client():
 
 	packet_seq_num = 0
-	sensor_list = sets.Set([])
-	current_packet = 0
-	client_addr = 0
-	client_socket = 0
-	server = 0
+	sensor_list = sets.Set([]) #list of sensors we listen to
+	current_packet = None 
+	client_addr =None
+	client_socket = None
+	server = None #pointer to the server this client belongs to
+	heartbeats_sent #number of heartbeats sent
+	timer_heartbeat =  packet_settings.TIME_UNTIL_HEARTBEAT #timer indicating when next heartbeat must be sent
+	timer_packet = packet_settings.TIME_UNTIL_PACKET_SENT #time indicating when the packet being formed must be sent 
+        threading_lock = None
+
 	
 	def __init__(self, server, client_addr):
 		self.server = server
@@ -23,6 +29,7 @@ class Client():
 		
 		packet_seq_num = os.urandom(4) % packet_settings.MAX_SEQ_NUM
 		self.packet_seq_num = struct.unpack(">L", packet_seq_num)
+		threading_lock = threading.Lock()
 		
 	##sends the packet that has been forming to the client
 	def send_packet(self):
@@ -31,6 +38,7 @@ class Client():
 			print("Error: only part of packet sent")
 		self.packet_seq_num = (self.packet_seq_num +1)%packet_settings.MAX_SEQ_NUM
 		self.current_packet = packet.Packet() #TODO: header info needs to be added to packet
+		self.timer_packet = packet_settings.TIME_UNTIL_PACKET_SENT
 		
 		
 	## called when we received a packet from a client
@@ -39,6 +47,7 @@ class Client():
 		packet = unpacker.unpack(packet)
 		position = 3
 		self.heartbeats_sent = 0
+		self.timer_heartbeat = packet_settings.TIME_UNTIL_HEARTBEAT
 		while position < len(packet):
 			if(packet[position] == packet_settings.TYPE_ACK):
 				# Dont think we need to implement anything here since ack only sent in response to heartbeat

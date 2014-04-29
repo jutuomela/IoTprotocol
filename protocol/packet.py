@@ -4,6 +4,7 @@ import packet_settings
 class Packet():
 	packet_content = b""
 	VERSION = 1
+	data_added = False
 		
 
 	def __init__(self,seq_num):
@@ -33,6 +34,7 @@ class Packet():
 		a = a | (len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
+		data_added = True;
 
 	def addUnSub(self,data,option):
 
@@ -46,6 +48,7 @@ class Packet():
 		a = a | (len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
+		data_added = True;
 
 	def addHeartBeat(self,data):
 		status = self.check_data(data)
@@ -58,6 +61,7 @@ class Packet():
 		a = a|(0<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
+		data_added = True;
 		
 	def addData(self,data):
 		print("PACKET: adding data")
@@ -74,6 +78,7 @@ class Packet():
 		print("PACKET: header " + str(a))
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
+		data_added = True;
 			
 	def addACK(self,data):
 		status = self.check_data(data)
@@ -86,6 +91,7 @@ class Packet():
 		a = a|(len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
+		data_added = True;
 
 	def addNACK(self,data):
 		status = self.check_data(data)
@@ -97,6 +103,7 @@ class Packet():
 		a = a|(len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
+		data_added = True;
 
 	def addREQ(self,data):
 		status = self.check_data(data)
@@ -108,6 +115,7 @@ class Packet():
 		a = a|(len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
+		data_added = True;
 	
 	#checks that the data isnt too long and that the packet has
 	#enough room to add it along with the header
@@ -121,3 +129,6 @@ class Packet():
 			return packet_settings.NOT_ENOUGH_SPACE
 			
 		return packet_settings.OKAY
+
+	def isDataAdded(self):
+                return data_added
