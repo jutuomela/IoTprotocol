@@ -62,26 +62,21 @@ class Client():
 			if(packet[position] == packet_settings.TYPE_SUB):
 				# add new sensors to clients sensor list
 				# remember to check options bit in case of prior subscription
-				if(packet[position+1] == 1) 	
-					self.sensor_list.clear()
-				#parse sensor from data field TODO
+				if(packet[position+1] == 1) 
+					#options bit is on, reset sensor list and add new sensors			
+					
+				#parse sensor from data field 
 
-				#append parsed sensor to sensor list TODO
+				#append parsed sensor to sensor list
 				print("Received sub from client")
 				
 			if(packet[position] == packet_settings.TYPE_UNSUB):
 				# remove sensors from clients sensor list
 				# remember to check options bit for remove all sensors bit
 				if(packet[position+1] == 1) 
-					self.sensor_list.clear()
-				
-				#parse sensor(s) from data field TODO
-
-				#remove parsed sensor(s) from sensor list
+					#options bit is on, remove all sensors
 
 				# if no more sensors then delete client from server list
-				if(len(self.sensor_list)==0)
-					self.server.remove_client(self)
 				print("Received unsub from client")
 					
 			if(packet[position] == packet_settings.TYPE_REQ):
