@@ -50,12 +50,12 @@ class Client():
 		self.timer_heartbeat = packet_settings.TIME_UNTIL_HEARTBEAT
 		while position < len(packet):
 			if(packet[position] == packet_settings.TYPE_ACK):
-				# Dont think we need to implement anything here since ack only sent in response to heartbeat
+				#Dont think we need to implement anything here since ack only sent in response to heartbeat
 				#and we already reset self.heartbeats_sent to zero
 				print("received ack from client") 
 				
 			if(packet[position] == packet_settings.TYPE_NACK):
-				# put congestion control here
+				### TODO put congestion control here
 				print("Received nack from client")
 				
 				
@@ -65,28 +65,39 @@ class Client():
 				if(packet[position+1] == 1) 	
 					self.sensor_list.clear()
 				#parse sensor from data field TODO
-
-				#append parsed sensor to sensor list TODO
-				print("Received sub from client")
+                                sensor_subs = packet[position+3].split("\n")
+				#append parsed sensor to sensor list
+                                replyData=""
+                                for x in sensor_subs:
+                                        if x not in self.sensor_list:
+                                               self.sensor_list.append(x) 
+                                               replyData = replyData + x +"\n" 
+                                print("Received subs from clients " + sensor_subs)
+                                add_ack(data, True)
 				
 			if(packet[position] == packet_settings.TYPE_UNSUB):
 				# remove sensors from clients sensor list
 				# remember to check options bit for remove all sensors bit
 				if(packet[position+1] == 1) 
 					self.sensor_list.clear()
-				
-				#parse sensor(s) from data field TODO
-
-				#remove parsed sensor(s) from sensor list
-
-				# if no more sensors then delete client from server list
-				if(len(self.sensor_list)==0)
-					self.server.remove_client(self)
-				print("Received unsub from client")
+					print("Received unsub for all sensors")
 					
-			if(packet[position] == packet_settings.TYPE_REQ):
-				# return the list of all sensors
-				print("Received req from client")
+				else:
+                                        #parse sensor(s) from data field TODO
+                                        sensor_unsubs = packet[position+3].split("\n")
+                                        
+                                        #remove parsed sensor(s) from sensor list
+                                        self.sensor_list = [x for x in self.sensor_list if x not in sensor_unsub]
+
+                                        # if no more sensors then delete client from server list
+                                if(len(self.sensor_list)==0)
+                                        self.server.remove_client(self)
+                                        print("Received unsub from client")
+                                add_ack("", True)
+                                                
+                      if(packet[position] == packet_settings.TYPE_REQ):
+                               ###TODO: return the list of all sensors
+                               print("Received req from client")
 			
 			#increment our position in the list by four to get to the next chunk 
 			position+=4
@@ -133,8 +144,23 @@ class Client():
 		else:
 			print("ERROR: unknown status code returned by add_data(self, data)")
 
+        #if send_immediatly == true the packet gets send immediatly after adding the data.
+        def add_ack(self, data, send_immediatly):
+		status = self.current_packet.addACK(data)
+		if(status==packet_settings.NOT_ENOUGH_SPACE):
+			self.send_packet()
+			add_ack(data, send_immediatly)
+			
+		elif(status==packet_settings.DATA_TOO_LONG):
+			print("ERROR: adding data to packet resulted in DATA_TOO_LONG status code")
+			
+		elif(status==packet_settings.OKAY):
+			if(send_immediatly):
+                                self.send_packet()
 
-
+		
+		else:
+			print("ERROR: unknown status code returned by add_data(self, data)")
 
 
 
