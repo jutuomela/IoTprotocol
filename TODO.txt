@@ -1,0 +1,21 @@
+
+
+
+congestion control
+sensor list - serverille annetaan käynnistyksessä lista sensoreista
+
+
+
+Client-ohjelmisto 
+	kommunikointi serverin kanssa ja loggaus tiedostoon
+	
+
+
+
+
+
+
+
+
+
+

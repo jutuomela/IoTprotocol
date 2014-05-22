@@ -37,7 +37,7 @@ class Client():
 		if num_sent != len(self.current_packet.get_packet()):
 			print("Error: only part of packet sent")
 		self.packet_seq_num = (self.packet_seq_num +1)%packet_settings.MAX_SEQ_NUM
-		self.current_packet = packet.Packet(self.packet_seq_num) 
+		self.current_packet = packet.Packet(self.packet_seq_num) #TODO: header info needs to be added to packet // isnt self.packet_seq_num enough to create all needed(maybe options should be also added?) info for the header?
 		self.timer_packet = packet_settings.TIME_UNTIL_PACKET_SENT
 		
 		
@@ -64,7 +64,7 @@ class Client():
 				# remember to check options bit in case of prior subscription
 				if(packet[position+1] == 1) 	
 					self.sensor_list.clear()
-				#parse sensor from data field
+				#parse sensor from data field TODO
                                 sensor_subs = packet[position+3].split("\n")
 				#append parsed sensor to sensor list
                                 replyData=""
@@ -83,7 +83,7 @@ class Client():
 					print("Received unsub for all sensors")
 					
 				else:
-                                        #parse sensor(s) from data field
+                                        #parse sensor(s) from data field TODO
                                         sensor_unsubs = packet[position+3].split("\n")
                                         
                                         #remove parsed sensor(s) from sensor list
