@@ -2,16 +2,31 @@
 
 
 congestion control
-sensor list - serverille annetaan käynnistyksessä lista sensoreista
+sensor list - read_sensor_list() on nyt toteutettuna server.py:ssä, mun mielestä serveri voi aina sensorilist pyynnön tullessa päivittää tota listaa(eli kutsua tota funktiota)?
+
+
+Log outgoing data in a file
+–Choose suitable name
+send_ts \t <whatever data you send to the client>
+
+If the data is too large (for example: camera)
+then store the length of the data. The camera
+data can be stored in .data file 
+
+
 
 
 
 Client-ohjelmisto 
 	kommunikointi serverin kanssa ja loggaus tiedostoon
-	
 
+Logs status of the sensor in a log file
+–Choose suitable name(s)
+Receive_ts \t <value received from the IoT-server>
 
-
+If the data is too large (for example: camera)
+then store the length of the data. The
+camera data can be stored in .data file 
 
 
 
