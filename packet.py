@@ -117,6 +117,48 @@ class Packet():
 		self.packet_content += data
 		data_added = True;
 
+	def addAGG(self,data):
+		status = self.check_data(data)
+		if status != packet_settings.OKAY:
+			return(status)
+
+		a = 0
+		a = a|(packet_settings.TYPE_AGG<<packet_settings.CHUNK_TYPE_SHIFT)
+		a = a|(0<<packet_settings.CHUNK_OPTIONS_SHIFT) #no options
+		a = a|(len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
+		self.packet_content += struct.pack(">L",a)
+		self.packet_content += data
+		data_added = True;
+
+
+	def addAGR(self,data):
+		status = self.check_data(data)
+		if status != packet_settings.OKAY:
+			return(status)
+
+		a = 0
+		a = a|(packet_settings.TYPE_AGR<<packet_settings.CHUNK_TYPE_SHIFT)
+		a = a|(0<<packet_settings.CHUNK_OPTIONS_SHIFT) #no options
+		a = a|(len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
+		self.packet_content += struct.pack(">L",a)
+		self.packet_content += data
+		data_added = True;
+
+	def addERR(self,data):
+		status = self.check_data(data)
+		if status != packet_settings.OKAY:
+			return(status)
+		
+		a = 0
+		a = a|(packet_settings.TYPE_ERR<<packet_settings.CHUNK_TYPE_SHIFT)
+		a = a|(0<<packet_settings.CHUNK_OPTIONS_SHIFT) #no options
+		a = a|(len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
+		self.packet_content += struct.pack(">L",a)
+		self.packet_content += data
+		data_added = True;
+
+
+
 	#checks that the data isnt too long and that the packet has
 	#enough room to add it along with the header
 	def check_data(self, data):

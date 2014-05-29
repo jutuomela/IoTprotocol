@@ -22,15 +22,21 @@ Client-ohjelmisto
 
 
 client.py
+	
+
+
 packet.py
 packet_unpacker.py
 packet_setting.py
 
 
 
-
-congestion control, heartbeat response
-
+yhteydet - listen port, send, 
+congestion control nack(seq number) , heartbeat response
+sensorit pyydetään + subrcribe kaikki listasta 
+	ip port parametreina
+subscribe, unsubscribe data niin että sillä kutsutaan addpacket jne 
+datafieldien generointi aggregoinneille
 
 
 
@@ -41,6 +47,18 @@ Receive_ts \t <value received from the IoT-server>
 If the data is too large (for example: camera)
 then store the length of the data. The
 camera data can be stored in .data file 
+
+
+
+Version 2
+
+
+aggregaatio
+
+
+
+
+
 
 
 

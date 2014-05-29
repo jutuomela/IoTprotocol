@@ -34,9 +34,6 @@ TYPE_DC = 3
 TYPE_ACK = 4
 TYPE_NACK = 5
 TYPE_REQ = 6
-TYPE_AGG = 7
-TYPE_AGR = 8
-TYPE_ERR = 9
 
 #Status ints
 OKAY = 0
