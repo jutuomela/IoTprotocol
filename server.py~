@@ -102,7 +102,7 @@ class Server():
 						sensorID = result.group(1)
 
 						#write received data to log
-						file = open("server_"+ sensorID +".log", "w")
+						file = open("server_"+ sensorID +".log", "a")
 						file.write(str(time.time()))
 						file.write("\t")
 						file.write(data)
