@@ -2,7 +2,7 @@
 
 
 congestion control
-sensor list - read_sensor_list on nyt toteutettuna server.py:ssä, mun mielestä serveri voi aina sensorilist pyynnön tullessa päivittää tota listaa(eli kutsua tota funktiota)?
+sensor list - read_sensor_list() on nyt toteutettuna server.py:ssä, mun mielestä serveri voi aina sensorilist pyynnön tullessa päivittää tota listaa(eli kutsua tota funktiota)?
 
 
 Log outgoing data in a file
@@ -19,6 +19,19 @@ data can be stored in .data file
 
 Client-ohjelmisto 
 	kommunikointi serverin kanssa ja loggaus tiedostoon
+
+
+packet.py
+packet_unpacker.py
+packet_setting.py
+
+
+
+
+congestion control, heartbeat response
+
+
+
 
 Logs status of the sensor in a log file
 –Choose suitable name(s)

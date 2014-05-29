@@ -126,7 +126,7 @@ class Server():
 	#	sensor2\n
 	#	sensor3\n
 	# 	<end of file>
-	def read_clients_list(self):
+	def read_sensor_list(self):
 		with open('sensor.list') as f:
 			self.sensor_list = f.readlines()
 			self.sensor_list = [x.strip('\n') for x in self.sensor_list]

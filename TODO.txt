@@ -20,6 +20,20 @@ data can be stored in .data file
 Client-ohjelmisto 
 	kommunikointi serverin kanssa ja loggaus tiedostoon
 
+
+client.py
+packet.py
+packet_unpacker.py
+packet_setting.py
+
+
+
+
+congestion control, heartbeat response
+
+
+
+
 Logs status of the sensor in a log file
 –Choose suitable name(s)
 Receive_ts \t <value received from the IoT-server>

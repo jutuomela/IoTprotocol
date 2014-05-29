@@ -3,7 +3,7 @@
 import socket
 import sys
 import re
-import client
+import server_client_rep
 import select
 import threading, time
 
