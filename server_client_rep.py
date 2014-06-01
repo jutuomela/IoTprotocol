@@ -13,6 +13,7 @@ class Client():
 
 	packet_seq_num = 0
 	sensor_list = sets.Set([]) #list of sensors we listen to
+	agg_list = [] #list of all pending aggregate requests
 	current_packet = None
 	client_addr =None
 	client_socket = None
@@ -25,17 +26,19 @@ class Client():
 
         #variables related to congestion control
         packet_queue = []
-	queue_max_len = 1;
+	queue_max_len = 1
 	send_history = []
-	send_history_list_max_len = 5;
-        packet_sending_rate = 100000 ##bits per second 
+	send_history_list_max_len = 5
+        packet_sending_rate = 100000 ##bits per second
+        bits_sent =0
+        
  
 
 	
 	def __init__(self, server, client_addr):
 		self.server = server
 		self.client_addr = client_addr
-		self.client_socket = socket(socket.AF_INET6, socket.SOCK_DGRAM)
+		self.client_socket = socket(socket.AF_INET, socket.SOCK_DGRAM)
 		
 		self.packet_seq_num = os.urandom(4) % packet_settings.MAX_SEQ_NUM
 		self.packet_seq_num = struct.unpack(">L", packet_seq_num)
@@ -45,7 +48,14 @@ class Client():
 		
 	##sends the packet that has been forming to the client
 	def prepare_to_send_packet(self):
-                
+
+                #increase sending rate if we have sent 10 times the max sending rate of bits
+                #this is an entirly arbitrary number and we have no idea whether any of this is
+                #reasonable
+                if(self.bits_sent > self.packet_sending_rate * 10):
+                        self.bits_sent =0
+                        self.packet_sending_rate = self.packet_sending_rate * 1.1
+                #next get an answer from congestion control on what to do with the current packet
                 ans=self.do_congestion_control(sys.getsizeof(self.current_packet)*8)
                 #if the answer from congestion control is 0 we send the packet
                 self.queue_thread_lock.acquire(1) #not perhaps necassary to lock entire function but safer this way. 
@@ -95,6 +105,7 @@ class Client():
                         if num_sent != len(self.current_packet.get_packet()):
                                 print("Error: only part of packet sent")
                         self.send_history.append(packet_history(time.time(), sys.getsizeof(packet)*8))
+                        self.bits_sent += sys.getsizeof(packet)*8
                         if(len(send_history>5)):
                                 self.send_history.pop(0)
                 
@@ -136,13 +147,15 @@ class Client():
 		self.heartbeats_sent = 0
 		self.timer_heartbeat = packet_settings.TIME_UNTIL_HEARTBEAT
 		while position < len(packet):
-			if(packet[position] == packet_settings.TYPE_ACK):
+                        if(packet[position] == packet_settings.TYPE_ACK):
 				#Dont think we need to implement anything here since ack only sent in response to heartbeat
 				#and we already reset self.heartbeats_sent to zero
 				print("received ack from client") 
 				
 			if(packet[position] == packet_settings.TYPE_NACK):
-				### TODO put congestion control here
+                                #got a nack so we will do some congestion control. This is really quite crude and a lot of problems with it.
+				self.sent_bits=0;
+				self.packet_sending_rate = self.packet_sending_rate * .5
 				print("Received nack from client")
 				
 				
@@ -182,11 +195,46 @@ class Client():
                                         print("Received unsub from client")
                                 add_ack("", True)
                                                 
-                      if(packet[position] == packet_settings.TYPE_REQ):
+                        if(packet[position] == packet_settings.TYPE_REQ):
                                ###TODO: return the list of all sensors
                                print("Received req from client")
-			
-			#increment our position in the list by four to get to the next chunk 
+                        if server.VERSION == 2:
+                                if(packet[position] == packet_settings.TYPE_AGG):
+                                        req=re.findall("(.*);", data)
+                                        if(len(req)>=3):
+                                                req_id=req[0] # request id
+                                                sensor_name=req[1] # sensor id
+                                                agg = req[2]  # type of aggregate request
+                                                sensor = None
+                                                for x in server.sensor_list:
+                                                        if sensor_name==x.sname:
+                                                                sensor = x
+                                                                break
+                                                if sensor = None:
+                                                       self.add_nack(req_id)
+                                                       return
+                                                if sensor.type=="camera" or sensor.type == "asd" or sensor.type = "gps":
+                                                        self.add_nack(req_id)
+                                                        return
+                                                ans=None;
+                                                if agg == "min":
+                                                        ans=sensor.get_min()
+                                                if agg == "max":
+                                                        ans=sensor.get_max()
+                                                if agg == "mean":
+                                                        ans=sensor.get_mean()
+                                                if agg == "std":
+                                                        ans=sensor.get_std()
+                                                        
+                                                if ans==None:
+                                                       self.add_nack(req_id)
+                                                       return;
+                                                else:
+                                                        self.add_agr(req_id, sensor_name, ans)
+                                               
+                                
+                          
+                        #increment our position in the list by four to get to the next chunk 
 			position+=4
 
 	## called when the server class the owns this client class has a packet from a sensor
@@ -251,12 +299,53 @@ class Client():
 
 
 
+        def add_nack(self, data):
+                status = self.current_packet.addNACK(data)
+		if(status==packet_settings.NOT_ENOUGH_SPACE):
+			self.prepare_to_send_packet()
+			self.add_nack(data)
+		elif(status==packet_settings.DATA_TOO_LONG):
+			print("ERROR: adding data to packet resulted in DATA_TOO_LONG status code")
+			
+		elif(status==packet_settings.OKAY):
+			return
 
+		
+		else:
+			print("ERROR: unknown status code returned by add_data(self, data)")
+
+	def add_agr(self, req_id, sen_id, ans):
+                status = self.current_packet.addagr(req_id+";"+sen_id+";"+ans+";")
+		if(status==packet_settings.NOT_ENOUGH_SPACE):
+			self.prepare_to_send_packet()
+			self.add_agr(req_id, sen_id, ans)
+		elif(status==packet_settings.DATA_TOO_LONG):
+			print("ERROR: adding data to packet resulted in DATA_TOO_LONG status code")
+			
+		elif(status==packet_settings.OKAY):
+			return
+
+		
+		else:
+			print("ERROR: unknown status code returned by add_data(self, data)")
 
 	
 class packet_history:
-        time_sent=0;
-        packet_size=0; # in bits
+        time_sent=0
+        packet_size=0 # in bits
         def __init__(self, time_sent, packet_size):
                 self.time_sent = time_sent
                 self.packet_size=packet_size
+
+
+class agg_req:
+        req_id=0
+        sensor=None
+        operation=""
+        params = []
+        def __init__(self, req_id, sensor, operation, params):
+                self.req_id=req_id
+                self.sensor=sensor
+                self.operation=operation
+                self.params=params
+
