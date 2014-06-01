@@ -31,11 +31,18 @@ packet_setting.py
 
 
 
-yhteydet - listen port, send, 
-congestion control nack(seq number) , heartbeat response
+yhteydet - receive, send, port 
+
+
 sensorit pyydetään + subrcribe kaikki listasta 
 	ip port parametreina
-subscribe, unsubscribe data niin että sillä kutsutaan addpacket jne 
+
+subscribe, unsubscribe data niin että sillä kutsutaan addpacket jne
+congestion control nack(seq number) , heartbeat response
+
+datafieldien generointi aggregoinneille
+
+
 
 Logs status of the sensor in a log file
 –Choose suitable name(s)
