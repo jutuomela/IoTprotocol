@@ -20,7 +20,7 @@ class Server():
 	thread_lock = None #lock for synchronization
 	
 	clients = []## list of clients		## need to add clients
-	sensor_list = []Â ## list of available sensors
+	sensor_list = [] ## list of available sensors
 
 
 	def __init__(self,host):
@@ -72,13 +72,14 @@ class Server():
 				
 				if sock == self.CLIENT_SOCKET:
 					data,addr = self.CLIENT_SOCKET.recvfrom(2048)
-					print "SERVER: Client connected from (%s, %s)" % addr 				#for testing 
+					print "SERVER: Client connected from (%s, %s)" % addr
 					for c in self.clients:
 						if c.client_addr == addr:
                                                         c.threading_lock.acquire(1)
 							c.received_packet_from_client(data)
 							c.threading_lock.release()
 							break
+						#if we are on the last client and it doesnt match, then create new client
 						elif self.clients[-1] == c:
                                                         newClient = client(addr)
 							self.clients.append(newClient)
@@ -89,18 +90,14 @@ class Server():
 				
 				if sock == self.SENSOR_SOCKET:
 					data,addr = self.SENSOR_SOCKET.recvfrom(2048)
-					
 
-					print "SERVER: Sensor connected from (%s, %s)" % addr				#for testing 
-					print "SERVER: " + data
-					result = re.search("'dev_id': '(.*)', 'sensor_data'",data)
-					
-					
+					print "SERVER: Sensor connected from (%s, %s)" % addr				
+					result = re.search("'dev_id': '(.*)'",data)
 					
 
 					if result != None:
 						sensorID = result.group(1)
-
+                                                update_sensor_info(sensorID,data)
 						#write received data to log
 						file = open("server_"+ sensorID +".log", "a")
 						file.write(str(time.time()))
@@ -117,7 +114,17 @@ class Server():
 						print "SERVER: Received unknown packet"	
 			
 			
-			
+
+        #updates the data stored about a sensor.
+        def update_sensor_info(sensorID, data):
+                for sensor in self.sensor_list:
+                        if sensorId == sensor.sname:
+                                value = re.search("'sensor_data': '(.*)'", data)
+                                if value != None:
+                                        sensor.add_value(value.group(1))
+
+                                        
+                
 	def remove_client(self,client):
 		self.clients.remove(client)
 			
@@ -126,12 +133,15 @@ class Server():
 	#	sensor2\n
 	#	sensor3\n
 	# 	<end of file>
+
+	
 	def read_sensor_list(self):
 		with open('sensor.list') as f:
-			self.sensor_list = f.readlines()
-			self.sensor_list = [x.strip('\n') for x in self.sensor_list]
-
-
+			sensor_list = f.readlines()
+			sensor_list = [x.strip('\n') for x in self.sensor_list]
+                        for x in sensor_list:
+                                self.sensor_list = Sensor(x, re.search("(.*)_.*", x).group(1))
+                        
 
 
 	#thread that will handle the timers in each client
