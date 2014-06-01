@@ -198,39 +198,39 @@ class Client():
                         if(packet[position] == packet_settings.TYPE_REQ):
                                ###TODO: return the list of all sensors
                                print("Received req from client")
-
-                        if(packet[position] == packet_settings.TYPE_AGG):
-                                req=re.findall("(.*);", data)
-                                if(len(req)>=3):
-                                        req_id=req[0] # request id
-                                        sensor_name=req[1] # sensor id
-                                        agg = req[2]  # type of aggregate request
-                                        sensor = None
-                                        for x in server.sensor_list:
-                                                if sensor_name==x.sname:
-                                                        sensor = x
-                                                        break
-                                        if sensor = None:
-                                               self.add_nack(req_id)
-                                               return
-                                        if sensor.type=="camera" or sensor.type == "asd" or sensor.type = "gps":
-                                                self.add_nack(req_id)
-                                                return
-                                        ans=None;
-                                        if agg == "min":
-                                                ans=sensor.get_min()
-                                        if agg == "max":
-                                                ans=sensor.get_max()
-                                        if agg == "mean":
-                                                ans=sensor.get_mean()
-                                        if agg == "std":
-                                                ans=sensor.get_std()
-                                                
-                                        if ans==None:
-                                               self.add_nack(req_id)
-                                               return;
-                                        else:
-                                                self.add_agr(req_id, sensor_name, ans)
+                        if server.VERSION == 2:
+                                if(packet[position] == packet_settings.TYPE_AGG):
+                                        req=re.findall("(.*);", data)
+                                        if(len(req)>=3):
+                                                req_id=req[0] # request id
+                                                sensor_name=req[1] # sensor id
+                                                agg = req[2]  # type of aggregate request
+                                                sensor = None
+                                                for x in server.sensor_list:
+                                                        if sensor_name==x.sname:
+                                                                sensor = x
+                                                                break
+                                                if sensor = None:
+                                                       self.add_nack(req_id)
+                                                       return
+                                                if sensor.type=="camera" or sensor.type == "asd" or sensor.type = "gps":
+                                                        self.add_nack(req_id)
+                                                        return
+                                                ans=None;
+                                                if agg == "min":
+                                                        ans=sensor.get_min()
+                                                if agg == "max":
+                                                        ans=sensor.get_max()
+                                                if agg == "mean":
+                                                        ans=sensor.get_mean()
+                                                if agg == "std":
+                                                        ans=sensor.get_std()
+                                                        
+                                                if ans==None:
+                                                       self.add_nack(req_id)
+                                                       return;
+                                                else:
+                                                        self.add_agr(req_id, sensor_name, ans)
                                                
                                 
                           

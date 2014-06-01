@@ -16,6 +16,7 @@ class Server():
 	CLIENT_SOCKET = None
 	SENSOR_SOCKET = None
 	TIMER_INTERVAL = 2
+	VERSION = 1;
 
 	thread_lock = None #lock for synchronization
 	
