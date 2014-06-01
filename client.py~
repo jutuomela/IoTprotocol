@@ -1,20 +1,23 @@
-import socket
+import socket, os
 import packet
 import packet_settings, packet_unpacker
 import struct 
 import re
 
-	server_port = 6006
+	
+
+class Client_ui(): 
+
+	server_port = None
 	server_addr = None
 	server_socket = None
 	packet_seq_num = 0
 	last_received_seq_num = None
 
 
-class Client_ui(): 
 
 	def __init__(self,address,port):
-		self.packet_seq_num = os.urandom(4) % packet_settings.MAX_SEQ_NUM
+		self.packet_seq_num = int(os.urandom(4)) % packet_settings.MAX_SEQ_NUM
 		self.packet_seq_num = struct.unpack(">L", packet_seq_num)
 		self.server_port = port
 		self.server_addr = address
@@ -35,7 +38,7 @@ class Client_ui():
 
 
 	def receive_data(self):
-		data, server = self.server_socket.recvfrom(2048)
+		data, server = self.server_socket.recvfrom(4096)
 		self.received_data_from_server(data)
 		print("Client received data from server: " + str(data)) #used for testing
 
@@ -61,7 +64,7 @@ class Client_ui():
 		while(position < len(packet)):
 			if(packet[position] == packet_setting.TYPE_ACK):
 				##subscription was succesfull, datafield contains list of sensors should we retry sensors which are not listed? unsubcription was succedfull, datafield is empty
-	
+				print("received ack from server") 
 			if(packet[position] == packet_setting.TYPE_HB):
 				#respond with ACK, now 
 				self.sendACK("")

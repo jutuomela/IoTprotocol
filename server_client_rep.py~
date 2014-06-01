@@ -196,8 +196,7 @@ class Client():
                                 add_ack("", True)
                                                 
                         if(packet[position] == packet_settings.TYPE_REQ):
-				response = '\n'.join(self.sensor_list)	
-				add_data(response)			
+                               ###TODO: return the list of all sensors
                                print("Received req from client")
                         if server.VERSION == 2:
                                 if(packet[position] == packet_settings.TYPE_AGG):
