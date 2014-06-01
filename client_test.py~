@@ -1,0 +1,11 @@
+import client
+
+
+c = client.Client_ui('127.0.0.1',6006)
+
+
+
+c.sendSub(data,1)
+
+
+c.receive_data()

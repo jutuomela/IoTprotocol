@@ -1,9 +1,9 @@
-#!/usr/bin/python
+
 
 import socket
 import sys
 import re
-import client
+import server_client_rep
 import select
 import threading, time
 
@@ -19,7 +19,7 @@ class Server():
 
 	thread_lock = None #lock for synchronization
 	
-	clients = []## list of clients		## need to add clients
+	clients = [] ## list of clients
 	sensor_list = [] ## list of available sensors
 
 
