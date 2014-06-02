@@ -2,7 +2,7 @@ import socket, os
 import packet
 import packet_settings, packet_unpacker
 import struct 
-import re
+import re, random
 
 	
 
@@ -17,7 +17,7 @@ class Client_ui():
 
 
 	def __init__(self,address,port):
-		self.packet_seq_num = int(os.urandom(4)) % packet_settings.MAX_SEQ_NUM
+		self.packet_seq_num = int(random.SystemRandom().random()) % packet_settings.MAX_SEQ_NUM
 		self.packet_seq_num = struct.unpack(">L", packet_seq_num)
 		self.server_port = port
 		self.server_addr = address

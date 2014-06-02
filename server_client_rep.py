@@ -7,6 +7,7 @@ import packet_settings, packet_unpacker
 import packet
 import threading
 import time
+import random
 
 #client class used in server to represent client
 class Client():
@@ -40,7 +41,7 @@ class Client():
 		self.client_addr = client_addr
 		self.client_socket = socket(socket.AF_INET, socket.SOCK_DGRAM)
 		
-		self.packet_seq_num = os.urandom(4) % packet_settings.MAX_SEQ_NUM
+		self.packet_seq_num = int(random.SystemRandom()random()) % packet_settings.MAX_SEQ_NUM
 		self.packet_seq_num = struct.unpack(">L", packet_seq_num)
 		self.threading_lock = threading.Lock()
 		self.queue_thread_lock = threading.Lock() 
@@ -196,9 +197,12 @@ class Client():
                                 add_ack("", True)
                                                 
                         if(packet[position] == packet_settings.TYPE_REQ):
-				response = '\n'.join(self.sensor_list)	
+				response=""
+				for x in server.sensor_list:
+					response += x.sname + "\n"
 				add_data(response)			
                                print("Received req from client")
+
                         if server.VERSION == 2:
                                 if(packet[position] == packet_settings.TYPE_AGG):
                                         req=re.findall("(.*);", data)
