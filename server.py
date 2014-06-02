@@ -21,7 +21,7 @@ class Server():
 	thread_lock = None #lock for synchronization
 	
 	clients = []## list of clients		## need to add clients
-	sensor_list = [] ## list of available sensors
+	sensor_list = []## list of available sensors
 
 
 	def __init__(self,host):
