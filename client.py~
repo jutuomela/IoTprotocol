@@ -18,7 +18,7 @@ class Client_ui():
 
 	def __init__(self,address,port):
 		self.packet_seq_num = int(random.SystemRandom().random()) % packet_settings.MAX_SEQ_NUM
-		self.packet_seq_num = struct.unpack(">L", self.packet_seq_num)
+		#self.packet_seq_num = struct.unpack(">L", self.packet_seq_num) ??
 		self.server_port = port
 		self.server_addr = address
 		
@@ -34,7 +34,7 @@ class Client_ui():
 	
 
 	def send_packet(self, packet):
-		self.server_socket.sendto(message, (self.server_addr,self.server_port))
+		self.server_socket.sendto(packet.get_packet(), (self.server_addr,self.server_port))
 
 
 	def receive_data(self):

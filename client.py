@@ -34,8 +34,8 @@ class Client_ui():
 	
 
 	def send_packet(self, packet):
-		self.server_socket.sendto(message, (self.server_addr,self.server_port))
-
+		self.server_socket.sendto(packet.get_packet(), (self.server_addr,self.server_port))
+		print("Client sends packet to server") #used for testing
 
 	def receive_data(self):
 		data, server = self.server_socket.recvfrom(4096)
