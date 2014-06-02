@@ -62,8 +62,8 @@ class Server():
 		CONNECTION_LIST.append(self.CLIENT_SOCKET)
 		CONNECTION_LIST.append(self.SENSOR_SOCKET)
 
-		self.timerThread = timer_Thread(self.clients)
-		timerThread.start()
+		self.timerThread = self.timer_Thread(self.clients, self)
+		self.timerThread.start()
 		
 		while 1:
 			
@@ -76,17 +76,17 @@ class Server():
 					print "SERVER: Client connected from (%s, %s)" % addr
 					for c in self.clients:
 						if c.client_addr == addr:
-                                                        c.threading_lock.acquire(1)
+							c.threading_lock.acquire(1)
 							c.received_packet_from_client(data)
 							c.threading_lock.release()
 							break
 						#if we are on the last client and it doesnt match, then create new client
 						elif self.clients[-1] == c:
-                                                        newClient = client(addr)
+							newClient = client(addr)
 							self.clients.append(newClient)
 							newClient.threading_lock.acquire(1)
 							newClient.received_packet_from_client(data)
-                                                        newClient.threading_lock.release()
+							newClient.threading_lock.release()
 					
 				
 				if sock == self.SENSOR_SOCKET:
@@ -149,16 +149,18 @@ class Server():
 	class timer_Thread(threading.Thread):
                 
                 clients = None
+                server = None
                 
-                def __init__(self, clientList):
+                def __init__(self, clientList, server):
                         threading.Thread.__init__(self)
-                        self.clients = clients
+                        self.clients = clientList
+                        self.server = server
 
                 def run(self):
-                        time.sleep(TIMER_INTERVAL)
+                        time.sleep(server.TIMER_INTERVAL)
                         for c in clients:
-                                c.timer_heartbeat=-TIMER_INTERVAL
-                                c.timer_packet=-TIMER_INTERVAL
+                                c.timer_heartbeat=-self.server.TIMER_INTERVAL
+                                c.timer_packet=-self.server.TIMER_INTERVAL
                                 #if time to send heartbeat
                                 if(c.timer_heartbeat <= 0):
                                         c.threading_lock.acquire(1) #each client has a lock for sync
