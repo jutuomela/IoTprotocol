@@ -41,8 +41,8 @@ class Client():
 		self.client_addr = client_addr
 		self.client_socket = socket(socket.AF_INET, socket.SOCK_DGRAM)
 		
-		self.packet_seq_num = int(random.SystemRandom()) % packet_settings.MAX_SEQ_NUM
-		self.packet_seq_num = struct.unpack(">L", packet_seq_num)
+		self.packet_seq_num = int(random.SystemRandom().random()) % packet_settings.MAX_SEQ_NUM
+		self.packet_seq_num = struct.unpack(">L", self.packet_seq_num)
 		self.threading_lock = threading.Lock()
 		self.queue_thread_lock = threading.Lock() 
 
