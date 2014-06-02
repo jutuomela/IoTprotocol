@@ -19,19 +19,19 @@ class Client():
 	client_addr =None
 	client_socket = None
 	server = None #pointer to the server this client belongs to
-	heartbeats_sent #number of heartbeats sent
+	heartbeats_sent = 0 #number of heartbeats sent
 	timer_heartbeat =  packet_settings.TIME_UNTIL_HEARTBEAT #timer indicating when next heartbeat must be sent
 	timer_packet = packet_settings.TIME_UNTIL_PACKET_SENT #time indicating when the packet being formed must be sent
 	threading_lock = None # used by the server class
 	queue_thread_lock = None # used by the thread managing the queue.
 
-        #variables related to congestion control
-        packet_queue = []
+    #variables related to congestion control
+	packet_queue = []
 	queue_max_len = 1
 	send_history = []
 	send_history_list_max_len = 5
-        packet_sending_rate = 100000 ##bits per second
-        bits_sent =0
+	packet_sending_rate = 100000 ##bits per second
+	bits_sent =0
         
  
 
@@ -75,7 +75,7 @@ class Client():
                         self.current_packet = packet.Packet(self.packet_seq_num) 
                         self.timer_packet = packet_settings.TIME_UNTIL_PACKET_SENT
                 #if ans == 2 we simply drop the current packet. 
-                else ans == 2:
+                elif ans == 2:
                         
                         self.current_packet = packet.Packet(self.packet_seq_num) 
                         self.timer_packet = packet_settings.TIME_UNTIL_PACKET_SENT   
@@ -118,7 +118,7 @@ class Client():
                         return 0;
                 #if packet_queue is at max length we need to send those packets first
                 #and can drop the current packet. If the max len is zero dont drop 
-                if(len(self.packet_queue)== queue_max_len && queue_max_len != 0):
+                if(len(self.packet_queue)== queue_max_len and queue_max_len != 0):
                         return 2;
 
                 #however if there is space in the queue we will store the packet. 
@@ -148,7 +148,7 @@ class Client():
 		self.heartbeats_sent = 0
 		self.timer_heartbeat = packet_settings.TIME_UNTIL_HEARTBEAT
 		while position < len(packet):
-                        if(packet[position] == packet_settings.TYPE_ACK):
+			if(packet[position] == packet_settings.TYPE_ACK):
 				#Dont think we need to implement anything here since ack only sent in response to heartbeat
 				#and we already reset self.heartbeats_sent to zero
 				print("received ack from client") 
@@ -158,85 +158,86 @@ class Client():
 				self.sent_bits=0;
 				self.packet_sending_rate = self.packet_sending_rate * .5
 				print("Received nack from client")
-				
-				
+			
 			if(packet[position] == packet_settings.TYPE_SUB):
 				# add new sensors to clients sensor list
 				# remember to check options bit in case of prior subscription
-				if(packet[position+1] == 1) 	
+				if(packet[position+1] == 1): 	
 					self.sensor_list.clear()
-				#parse sensor from data field
-                                sensor_subs = packet[position+3].split("\n")
-				#append parsed sensor to sensor list
-                                replyData=""
-                                for x in sensor_subs:
-                                        if x not in self.sensor_list:
-                                               self.sensor_list.append(x) 
-                                               replyData = replyData + x +"\n" 
-                                print("Received subs from clients " + sensor_subs)
-                                add_ack(data, True)
+					#parse sensor from data field
+					sensor_subs = packet[position+3].split("\n")
+					#append parsed sensor to sensor list
+					replyData=""
+					for x in sensor_subs:
+						if x not in self.sensor_list:
+							self.sensor_list.append(x) 
+							replyData = replyData + x +"\n" 
+					print("Received subs from clients " + sensor_subs)
+					add_ack(data, True)
 				
-			if(packet[position] == packet_settings.TYPE_UNSUB):
-				# remove sensors from clients sensor list
-				# remember to check options bit for remove all sensors bit
-				if(packet[position+1] == 1) 
-					self.sensor_list.clear()
-					print("Received unsub for all sensors")
-					
-				else:
-                                        #parse sensor(s) from data field
-                                        sensor_unsubs = packet[position+3].split("\n")
-                                        
-                                        #remove parsed sensor(s) from sensor list
-                                        self.sensor_list = [x for x in self.sensor_list if x not in sensor_unsub]
-
-                                        # if no more sensors then delete client from server list
-                                if(len(self.sensor_list)==0)
-                                        self.server.remove_client(self)
-                                        print("Received unsub from client")
-                                add_ack("", True)
+				if(packet[position] == packet_settings.TYPE_UNSUB):
+					# remove sensors from clients sensor list
+					# remember to check options bit for remove all sensors bit
+					if(packet[position+1] == 1): 
+						self.sensor_list.clear()
+						print("Received unsub for all sensors")
+						
+					else:
+						#parse sensor(s) from data field
+						sensor_unsubs = packet[position+3].split("\n")
+						
+						#remove parsed sensor(s) from sensor list
+						self.sensor_list = [x for x in self.sensor_list if x not in sensor_unsub]
+						
+						# if no more sensors then delete client from server list
+						if(len(self.sensor_list)==0):
+							self.server.remove_client(self)
+						print("Received unsub from client")
+						add_ack("", True)
                                                 
-                        if(packet[position] == packet_settings.TYPE_REQ):
-				response=""
-				for x in server.sensor_list:
-					response += x.sname + "\n"
-				add_data(response)			
-                               print("Received req from client")
+				if(packet[position] == packet_settings.TYPE_REQ):
+					response=""
+					for x in server.sensor_list:
+						response += x.sname + "\n"
+					add_data(response)	
+					print("Received req from client")
 
-                        if server.VERSION == 2:
-                                if(packet[position] == packet_settings.TYPE_AGG):
-                                        req=re.findall("(.*);", data)
-                                        if(len(req)>=3):
-                                                req_id=req[0] # request id
-                                                sensor_name=req[1] # sensor id
-                                                agg = req[2]  # type of aggregate request
-                                                sensor = None
-                                                for x in server.sensor_list:
-                                                        if sensor_name==x.sname:
-                                                                sensor = x
-                                                                break
-                                                if sensor = None:
-                                                       self.add_nack(req_id)
-                                                       return
-                                                if sensor.type=="camera" or sensor.type == "asd" or sensor.type = "gps":
-                                                        self.add_nack(req_id)
-                                                        return
-                                                ans=None;
-                                                if agg == "min":
-                                                        ans=sensor.get_min()
-                                                if agg == "max":
-                                                        ans=sensor.get_max()
-                                                if agg == "mean":
-                                                        ans=sensor.get_mean()
-                                                if agg == "std":
-                                                        ans=sensor.get_std()
-                                                        
-                                                if ans==None:
-                                                       self.add_nack(req_id)
-                                                       return;
-                                                else:
-                                                        self.add_agr(req_id, sensor_name, ans)
-                                               
+          		if server.VERSION == 2:
+		            if(packet[position] == packet_settings.TYPE_AGG):
+		                    req=re.findall("(.*);", data)
+		                    if(len(req)>=3):
+		                            req_id=req[0] # request id
+		                            sensor_name=req[1] # sensor id
+		                            agg = req[2]  # type of aggregate request
+		                            sensor = None
+		                            for x in server.sensor_list:
+		                                    if sensor_name==x.sname:
+		                                            sensor = x
+		                                            break
+		                            if sensor == None:
+		                                   self.add_nack(req_id)
+		                                   return
+		                            if sensor.type=="camera" or sensor.type == "asd" or sensor.type == "gps":
+		                                    self.add_nack(req_id)
+		                                    return
+		                            ans=None;
+		                            if agg == "min":
+		                                    ans=sensor.get_min()
+		                            if agg == "max":
+		                                    ans=sensor.get_max()
+		                            if agg == "mean":
+		                                    ans=sensor.get_mean()
+		                            if agg == "std":
+		                                    ans=sensor.get_std()
+		                                    
+		                            if ans==None:
+		                                   self.add_nack(req_id)
+		                                   return;
+		                            else:
+		                                	self.add_agr(req_id, sensor_name, ans)
+                	           	    if(len(self.sensor_list)==0):
+	                    					self.server.remove_client(self)
+		                           
                                 
                           
                         #increment our position in the list by four to get to the next chunk 
