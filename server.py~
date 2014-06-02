@@ -1,4 +1,4 @@
-
+#!/usr/bin/python
 
 import socket
 import sys
@@ -6,6 +6,7 @@ import re
 import server_client_rep
 import select
 import threading, time
+import sensor
 
 
 class Server(): 
@@ -16,16 +17,19 @@ class Server():
 	CLIENT_SOCKET = None
 	SENSOR_SOCKET = None
 	TIMER_INTERVAL = 2
+	VERSION = 1;
 
 	thread_lock = None #lock for synchronization
 	
-	clients = [] ## list of clients
-	sensor_list = [] ## list of available sensors
+	clients = []## list of clients		## need to add clients
+	sensor_list = []## list of available sensors
 
 
 	def __init__(self,host):
 		self.HOST = host
 		self.thread_lock = threading.Lock()
+		self.read_sensor_list()
+		print(str(self.sensor_list))
 	
 	def start_listening_sensor(self):
 		try:
@@ -61,8 +65,8 @@ class Server():
 		CONNECTION_LIST.append(self.CLIENT_SOCKET)
 		CONNECTION_LIST.append(self.SENSOR_SOCKET)
 
-		self.timerThread = timer_Thread(self.clients)
-		timerThread.start()
+		self.timerThread = self.timer_Thread(self.clients, self)
+		self.timerThread.start()
 		
 		while 1:
 			
@@ -72,35 +76,41 @@ class Server():
 				
 				if sock == self.CLIENT_SOCKET:
 					data,addr = self.CLIENT_SOCKET.recvfrom(2048)
-					print "SERVER: Client connected from (%s, %s)" % addr 				#for testing 
-					for c in self.clients:
-						if c.client_addr == addr:
-                                                        c.threading_lock.acquire(1)
-							c.received_packet_from_client(data)
-							c.threading_lock.release()
-							break
-						elif self.clients[-1] == c:
-                                                        newClient = client(addr)
-							self.clients.append(newClient)
-							newClient.threading_lock.acquire(1)
-							newClient.received_packet_from_client(data)
-                                                        newClient.threading_lock.release()
+
+					if(len(self.clients)!=0):
+						for c in self.clients:
+							if c.client_addr == addr:
+								print "SERVER: Client connected from (%s, %s)" % addr
+								c.threading_lock.acquire(1)
+								c.received_packet_from_client(data)
+								c.threading_lock.release()
+								break
+							#if we are on the last client and it doesnt match, then create new client
+							elif self.clients[-1] == c:
+								print "SERVER: New client connected from (%s, %s)" % addr
+								newClient = server_client_rep.Client(self,addr)
+								self.clients.append(newClient)
+								newClient.threading_lock.acquire(1)
+								newClient.received_packet_from_client(data)
+								newClient.threading_lock.release()
 					
-				
+					else:
+						print "SERVER: First client connected from (%s, %s)" % addr
+						newClient = server_client_rep.Client(self,addr)
+						self.clients.append(newClient)
+						newClient.threading_lock.acquire(1)
+						newClient.received_packet_from_client(data)
+						newClient.threading_lock.release()
 				if sock == self.SENSOR_SOCKET:
 					data,addr = self.SENSOR_SOCKET.recvfrom(2048)
-					
 
-					print "SERVER: Sensor connected from (%s, %s)" % addr				#for testing 
-					print "SERVER: " + data
-					result = re.search("'dev_id': '(.*)', 'sensor_data'",data)
-					
-					
+					print "SERVER: Sensor connected from (%s, %s)" % addr				
+					result = re.search("'dev_id': '(.*?)'",data)
 					
 
 					if result != None:
 						sensorID = result.group(1)
-
+                                                self.update_sensor_info(sensorID, data)
 						#write received data to log
 						file = open("server_"+ sensorID +".log", "a")
 						file.write(str(time.time()))
@@ -110,14 +120,24 @@ class Server():
 						file.close()
 
 						for c in self.clients:
-                                                        client.threading_lock.acquire(1)
+                                                        c.threading_lock.acquire(1)
 							c.received_packet_from_sensor(sensorID, data)
-							client.threading_lock.release(1)
+							c.threading_lock.release()
 					else:
 						print "SERVER: Received unknown packet"	
 			
 			
-			
+
+        #updates the data stored about a sensor.
+        def update_sensor_info(self, sensorID, data):
+                for sensor in self.sensor_list:
+                        if sensorID == sensor.sname:
+                                value = re.search("'sensor_data': '(.*?)'", data)
+                                if value != None:
+                                        sensor.add_value(value.group(1))
+
+                                        
+                
 	def remove_client(self,client):
 		self.clients.remove(client)
 			
@@ -126,28 +146,35 @@ class Server():
 	#	sensor2\n
 	#	sensor3\n
 	# 	<end of file>
+
+	
 	def read_sensor_list(self):
 		with open('sensor.list') as f:
-			self.sensor_list = f.readlines()
-			self.sensor_list = [x.strip('\n') for x in self.sensor_list]
-
-
+			sensor_list = f.readlines()
+			sensor_list = [x.strip('\n') for x in sensor_list]
+			print(str(sensor_list))
+                        for x in sensor_list:
+                                self.sensor_list.append(sensor.Sensor(x, re.search("(.*)_.*", x).group(1)))
+                        
 
 
 	#thread that will handle the timers in each client
 	class timer_Thread(threading.Thread):
                 
                 clients = None
+                server = None
                 
-                def __init__(self, clientList):
+                def __init__(self, clientList, server):
                         threading.Thread.__init__(self)
-                        self.clients = clients
+                        self.clients = clientList
+                        self.server = server
 
                 def run(self):
-                        time.sleep(TIMER_INTERVAL)
-                        for c in clients:
-                                c.timer_heartbeat=-TIMER_INTERVAL
-                                c.timer_packet=-TIMER_INTERVAL
+			print("timer thread going to sleep")
+                        time.sleep(self.server.TIMER_INTERVAL)
+                        for c in self.clients:
+                                c.timer_heartbeat=-self.server.TIMER_INTERVAL
+                                c.timer_packet=-self.server.TIMER_INTERVAL
                                 #if time to send heartbeat
                                 if(c.timer_heartbeat <= 0):
                                         c.threading_lock.acquire(1) #each client has a lock for sync

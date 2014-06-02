@@ -1,7 +1,7 @@
 
 
 
-MAX_PACKET_LENGTH = 1012
+MAX_PACKET_LENGTH = 2024
 MAX_SEQ_NUM = 33554431
 
 #packet header
@@ -34,6 +34,9 @@ TYPE_DC = 3
 TYPE_ACK = 4
 TYPE_NACK = 5
 TYPE_REQ = 6
+TYPE_AGG = 7
+TYPE_AGR = 8
+TYPE_ERR = 9
 
 #Status ints
 OKAY = 0

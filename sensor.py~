@@ -30,7 +30,7 @@ class Sensor():
 	if self.stype == "device":
 		return
         #calc max, min, mean, and var for device and temp sensors
-        if self.stype == "temp":
+        if  or self.stype == "temp":
             value = float(value)
             self.numb_of_vals+=1
             #if this is the first value

@@ -3,7 +3,7 @@ import packet
 import packet_settings, packet_unpacker
 import struct 
 import re, random
-
+import time
 	
 
 class Client_ui(): 
@@ -48,7 +48,7 @@ class Client_ui():
 	#possible chunk types: HB,DATA, ACK, , (v2 AGR, NACK)
 	def received_data_from_server(self, packet):
 		unpacker = packet_unpacker.Packet_unpacker() 
-		packet = unpacker_unpack(packet)
+		packet = unpacker.unpack(packet)
 		
 		if(self.last_received_seq_num == None):#first message
 			self.last_received_seq_num = packet[2]
@@ -62,14 +62,14 @@ class Client_ui():
 	
 		position = 3
 		while(position < len(packet)):
-			if(packet[position] == packet_setting.TYPE_ACK):
+			if(packet[position] == packet_settings.TYPE_ACK):
 				##subscription was succesfull, datafield contains list of sensors should we retry sensors which are not listed? unsubcription was succedfull, datafield is empty
 				print("received ack from server") 
-			if(packet[position] == packet_setting.TYPE_HB):
+			if(packet[position] == packet_settings.TYPE_HB):
 				#respond with ACK, now 
 				self.sendACK("")
 
-			if(packet[position] == packet_setting.TYPE_DC):
+			if(packet[position] == packet_settings.TYPE_DC):
 				result = re.search("'dev_id': '(.*)', 'sensor_data'",packet[position+3])
 				
 				if result != None:
@@ -84,7 +84,7 @@ class Client_ui():
 					file.close()
 				if result == None: #DC = response to REQ
 					#subscribe to all the available sensors 
-					sendSUB(packet[position+3], 1)
+					self.sendSUB(packet[position+3], 1)
 						
 
 

@@ -9,6 +9,9 @@ import threading
 import time
 import random
 
+
+####TODO: CHECK len and getsizeof usage #######
+
 #client class used in server to represent client
 class Client():
 
@@ -39,13 +42,13 @@ class Client():
 	def __init__(self, server, client_addr):
 		self.server = server
 		self.client_addr = client_addr
-		self.client_socket = socket(socket.AF_INET, socket.SOCK_DGRAM)
+		self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 		
 		self.packet_seq_num = int(random.SystemRandom().random()) % packet_settings.MAX_SEQ_NUM
 		#self.packet_seq_num = struct.unpack(">L", self.packet_seq_num) ??
 		self.threading_lock = threading.Lock()
 		self.queue_thread_lock = threading.Lock() 
-
+		self.current_packet=packet.Packet(self.packet_seq_num)
 		
 	##sends the packet that has been forming to the client
 	def prepare_to_send_packet(self):
@@ -96,18 +99,18 @@ class Client():
                                 time.sleep(sleep_time)
                         self.queue_thread_lock.acquire(1) # lock here again both so we send one thing at a time
                                                           # and to ensure poping goes smoothly
-                        send_packet(packet_queue.pop(0))
+                        self.send_packet(packet_queue.pop(0))
                         self.queue_thread_lock.release()
 
                         
         # sends the current packet
-        def send_packet(self, packet):
-                        num_sent=self.client_socket.sendto(self.packet.get_packet(), self.client_addr)
-                        if num_sent != len(self.current_packet.get_packet()):
+        def send_packet(self, cur_packet):
+                        num_sent=self.client_socket.sendto(cur_packet.get_packet(), self.client_addr)
+                        if num_sent != len(cur_packet.get_packet()):
                                 print("Error: only part of packet sent")
-                        self.send_history.append(packet_history(time.time(), sys.getsizeof(packet)*8))
-                        self.bits_sent += sys.getsizeof(packet)*8
-                        if(len(send_history>5)):
+                        self.send_history.append(packet_history(time.time(), sys.getsizeof(cur_packet)*8))
+                        self.bits_sent += sys.getsizeof(cur_packet)*8
+                        if len(self.send_history)>5:
                                 self.send_history.pop(0)
                 
                         
@@ -118,7 +121,7 @@ class Client():
                         return 0;
                 #if packet_queue is at max length we need to send those packets first
                 #and can drop the current packet. If the max len is zero dont drop 
-                if(len(self.packet_queue)== queue_max_len and queue_max_len != 0):
+                if(len(self.packet_queue) == self.queue_max_len and self.queue_max_len != 0):
                         return 2;
 
                 #however if there is space in the queue we will store the packet. 
@@ -127,12 +130,12 @@ class Client():
                 
                 #calculate the sending rate if current packet sent
                 bits_sent = 0
-                for tales in self.packet_history:
+                for tales in self.send_history:
                         bits_sent = tales.packet_size;
                 bits_sent+=packet_size;
-                time_dif = time.time() - self.packet_history[0].time_sent
+                time_dif = time.time() - self.send_history[0].time_sent
                 rate_in_bps = bits_sent / time_dif
-                if(rate_in_bps < packet_sending_rate):
+                if(rate_in_bps < self.packet_sending_rate):
                         return 0
                 #if we reach here it means max queue len is zero and we cant send the packet
                 #so we drop it
@@ -142,8 +145,10 @@ class Client():
 	
 	## called when we received a packet from a client
 	def received_packet_from_client(self, packet):
+		print("Received a packet")
 		unpacker = packet_unpacker.Packet_unpacker() #unpack the packet
 		packet = unpacker.unpack(packet)
+		print("packet content"+ str(packet))
 		position = 3
 		self.heartbeats_sent = 0
 		self.timer_heartbeat = packet_settings.TIME_UNTIL_HEARTBEAT
@@ -164,45 +169,55 @@ class Client():
 				# remember to check options bit in case of prior subscription
 				if(packet[position+1] == 1): 	
 					self.sensor_list.clear()
-					#parse sensor from data field
-					sensor_subs = packet[position+3].split("\n")
-					#append parsed sensor to sensor list
-					replyData=""
-					for x in sensor_subs:
-						if x not in self.sensor_list:
-							self.sensor_list.append(x) 
-							replyData = replyData + x +"\n" 
-					print("Received subs from clients " + sensor_subs)
-					add_ack(data, True)
+				#parse sensor from data field
+				sensor_subs = packet[position+3].split("\n")
+				print("received subs"+ str(sensor_subs))
+				#append parsed sensor to sensor list
+				replyData=""
 				
-				if(packet[position] == packet_settings.TYPE_UNSUB):
-					# remove sensors from clients sensor list
-					# remember to check options bit for remove all sensors bit
-					if(packet[position+1] == 1): 
-						self.sensor_list.clear()
-						print("Received unsub for all sensors")
-						
-					else:
-						#parse sensor(s) from data field
-						sensor_unsubs = packet[position+3].split("\n")
-						
-						#remove parsed sensor(s) from sensor list
-						self.sensor_list = [x for x in self.sensor_list if x not in sensor_unsub]
-						
-						# if no more sensors then delete client from server list
-						if(len(self.sensor_list)==0):
-							self.server.remove_client(self)
-						print("Received unsub from client")
-						add_ack("", True)
-                                                
-				if(packet[position] == packet_settings.TYPE_REQ):
-					response=""
-					for x in server.sensor_list:
-						response += x.sname + "\n"
-					add_data(response)	
-					print("Received req from client")
+				for x in sensor_subs:
+					if x not in self.sensor_list:
+						sensor_found = 0
+						for y in self.server.sensor_list:
+							if(y.sname == x):
+								sensor_found = 1
+								break
+						if sensor_found == 0:
+							continue
+						self.sensor_list.add(x) 
+						replyData = replyData + x +"\n" 
+				print("Received subs from clients " + str(sensor_subs))
+				self.add_ack(replyData, True)
+			
+			if(packet[position] == packet_settings.TYPE_UNSUB):
+				# remove sensors from clients sensor list
+				# remember to check options bit for remove all sensors bit
+				if(packet[position+1] == 1): 
+					self.sensor_list.clear()
+					print("Received unsub for all sensors")
+					
+				else:
+					#parse sensor(s) from data field
+					sensor_unsubs = packet[position+3].split("\n")
+					
+					#remove parsed sensor(s) from sensor list
+					self.sensor_list = [x for x in self.sensor_list if x not in sensor_unsub]
+					
+					# if no more sensors then delete client from server list
+					if(len(self.sensor_list)==0):
+						self.server.remove_client(self)
+					print("Received unsub from client")
+					self.add_ack("", True)
+                                        
+			if(packet[position] == packet_settings.TYPE_REQ):
+				response=""
+				for x in self.server.sensor_list:
+					response += x.sname + "\n"
+				self.add_data(response)	
+				self.prepare_to_send_packet()
+				print("Received req from client")
 
-          		if server.VERSION == 2:
+          		if self.server.VERSION == 2:
 		            if(packet[position] == packet_settings.TYPE_AGG):
 		                    req=re.findall("(.*);", data)
 		                    if(len(req)>=3):
@@ -272,6 +287,7 @@ class Client():
 	def add_data(self, data):
 		status = self.current_packet.addData(data)
 		if(status==packet_settings.NOT_ENOUGH_SPACE):
+			print("server: not enough space in client. Data length = " + str(len(data)))
 			self.prepare_to_send_packet()
 			self.add_data(data)
 			
@@ -283,7 +299,7 @@ class Client():
 			pass
 		
 		else:
-			print("ERROR: unknown status code returned by add_data(self, data)")
+			print("ERROR: unknown status code returned by add_data(self, data). status = " + str(status))
 
         #if send_immediatly == true the packet gets send immediatly after adding the data.
         def add_ack(self, data, send_immediatly):
