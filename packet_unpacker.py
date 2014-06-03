@@ -17,7 +17,6 @@ class Packet_unpacker():
 		
 	#unpacks the header
 	def unpack_header(self):
-		print("UNPACKER: unpacking header")
 		header = self.packet[:4]
 		header = struct.unpack(">L", header)[0]
 		version = self.get_bits(header, packet_settings.VERSION_SHIFT, packet_settings.VERSION_LENGTH)
@@ -30,24 +29,19 @@ class Packet_unpacker():
 		
 	def unpack_chunks(self):
 		
-		print("UNPACKER: unpacking chunks")
-		print(len(self.packet))
 		#loop through the chunks
 		while len(self.packet)>self.position:
 
-			print("UNPACKER: position=" + str(self.position))
 			#unpack chunk header 
 			header = self.packet[self.position:self.position+4]
 			header = struct.unpack(">L", header)[0]
 			self.position += 4
-			print("UNPACKER: header = " + str(header))
 			type = self.get_bits(header, packet_settings.CHUNK_TYPE_SHIFT, packet_settings.CHUNK_TYPE_LENGTH)
 			options = self.get_bits(header, packet_settings.CHUNK_OPTIONS_SHIFT, packet_settings.CHUNK_OPTIONS_LENGTH)
 			chunk_length = self.get_bits(header, packet_settings.CHUNK_LEN_SHIFT, packet_settings.CHUNK_LENGTH_FIELD_LENGTH)
 			self.unpacked_packet.append(type)
 			self.unpacked_packet.append(options)
 			self.unpacked_packet.append(chunk_length)
-			print("UNPACKER: data=" + self.packet[self.position:self.position+chunk_length])
 			#unpack data if chunk length greater than 0
 			self.unpacked_packet.append(self.packet[self.position:self.position+chunk_length])
 			self.position+=chunk_length

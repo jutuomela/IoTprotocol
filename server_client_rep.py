@@ -23,8 +23,8 @@ class Client():
 	client_socket = None
 	server = None #pointer to the server this client belongs to
 	heartbeats_sent = 0 #number of heartbeats sent
-	timer_heartbeat =  packet_settings.TIME_UNTIL_HEARTBEAT #timer indicating when next heartbeat must be sent
-	timer_packet = packet_settings.TIME_UNTIL_PACKET_SENT #time indicating when the packet being formed must be sent
+	timer_heartbeat =  packet_settings.TIME_UNTIL_HEARTBEAT #time(s) indicating when next heartbeat must be sent
+	timer_packet = packet_settings.TIME_UNTIL_PACKET_SENT #time(s) indicating when the packet being formed must be sent
 	threading_lock = None # used by the server class
 	queue_thread_lock = None # used by the thread managing the queue.
 
@@ -33,8 +33,9 @@ class Client():
 	queue_max_len = 1
 	send_history = []
 	send_history_list_max_len = 5
-	packet_sending_rate = 100000 ##bits per second
-	bits_sent =0
+	packet_sending_rate = 10000 ##bits per second
+	bits_sent = 0
+	dropped_packets = 0
         
  
 
@@ -52,44 +53,56 @@ class Client():
 		
 	##sends the packet that has been forming to the client
 	def prepare_to_send_packet(self):
-
+                #if the packet is empty, aside from the header with length 1, do nothing
+                if(len(self.current_packet.get_packet())<2):
+                        self.timer_packet = packet_settings.TIME_UNTIL_PACKET_SENT
+                        return
+                
                 #increase sending rate if we have sent 10 times the max sending rate of bits
                 #this is an entirly arbitrary number and we have no idea whether any of this is
                 #reasonable
-                if(self.bits_sent > self.packet_sending_rate * 10):
-                        self.bits_sent =0
-                        self.packet_sending_rate = self.packet_sending_rate * 1.1
+                if(self.bits_sent > self.packet_sending_rate * 7):
+                        self.bits_sent = 0
+                        #only increase rate if certain amount of dropped packets observed, to indicate we are on the bit rate limit.
+                        #this avoids needles growth we are only sending at lower rates anyways. 
+                        if(self.dropped_packets > 2):
+                                self.dropped_packets = 0
+                                self.packet_sending_rate = self.packet_sending_rate * 1.3
                 #next get an answer from congestion control on what to do with the current packet
                 ans=self.do_congestion_control(sys.getsizeof(self.current_packet)*8)
                 #if the answer from congestion control is 0 we send the packet
                 self.queue_thread_lock.acquire(1) #not perhaps necassary to lock entire function but safer this way. 
                 if ans == 0:
-                        
+                        #print("Server sending packet")
                         self.send_packet(self.current_packet)
                         self.packet_seq_num = (self.packet_seq_num +1)%packet_settings.MAX_SEQ_NUM
-                        self.current_packet = packet.Packet(self.packet_seq_num) 
-                        self.timer_packet = packet_settings.TIME_UNTIL_PACKET_SENT
+
                 #if the answer is 1 we add the packet to the queue
                 elif ans == 1:
                         self.packet_queue.append(self.current_packet)
                         if len(self.packet_queue == 1):
                                 thread.start_new_thread(send_packet_in_queue_thread, ())
                         self.packet_seq_num = (self.packet_seq_num +1)%packet_settings.MAX_SEQ_NUM
-                        self.current_packet = packet.Packet(self.packet_seq_num) 
-                        self.timer_packet = packet_settings.TIME_UNTIL_PACKET_SENT
+
                 #if ans == 2 we simply drop the current packet. 
                 elif ans == 2:
-                        
-                        self.current_packet = packet.Packet(self.packet_seq_num) 
-                        self.timer_packet = packet_settings.TIME_UNTIL_PACKET_SENT   
+                        #print("Congestion control says to drop packet")
+                        self.dropped_packets+=1
+
+                self.current_packet = packet.Packet(self.packet_seq_num) 
+                self.timer_packet = packet_settings.TIME_UNTIL_PACKET_SENT
                 self.queue_thread_lock.release()
                    
-        ##a thread that sends packets in the queue when the sending rate has decreased enough
+        ##a thread that sends packets in the queue when the sending rate has decreased enough.
+        ## The convoluted locking scheme hopefully prevents any sync bugs
 	def send_packet_in_queue_thread(self):
-                while(len(self.packet_queue)>0):
+                
+                self.queue_thread_lock.acquire(1)
+                print("queue thread starting")
+                while(len(self.packet_queue)>0): #while check is always done inside lock.
+                        
                         #calculate how long we need to sleep to send the next packet
-                        self.queue_thread_lock.acquire(1) # lock here so queue isnt changed while we count
-                        total_bits=sys.getsizeof(self.packet_queue[0])
+                        total_bits=len(self.packet_queue[0].get_packet())*8
                         for tales in self.send_history:
                                total_bits+=tales.packet_size
                         time_future = self.send_history[0].time_sent-total_bits/self.packet_sending_rate;
@@ -97,10 +110,11 @@ class Client():
                         sleep_time = time_future - time.time();
                         if sleep_time > 0:
                                 time.sleep(sleep_time)
-                        self.queue_thread_lock.acquire(1) # lock here again both so we send one thing at a time
-                                                          # and to ensure poping goes smoothly
+                        self.queue_thread_lock.acquire(1) # lock here again both so we send one thing at a time and to ensure poping goes smoothly
+                        print "queue thread sending packet"     
                         self.send_packet(packet_queue.pop(0))
-                        self.queue_thread_lock.release()
+
+                self.queue_thread_lock.release()
 
                         
         # sends the current packet
@@ -108,16 +122,16 @@ class Client():
                         num_sent=self.client_socket.sendto(cur_packet.get_packet(), self.client_addr)
                         if num_sent != len(cur_packet.get_packet()):
                                 print("Error: only part of packet sent")
-                        self.send_history.append(packet_history(time.time(), sys.getsizeof(cur_packet)*8))
-                        self.bits_sent += sys.getsizeof(cur_packet)*8
+                        self.send_history.append(packet_history(time.time(), len(cur_packet.get_packet())*8))
+                        self.bits_sent += len(cur_packet.get_packet())*8
                         if len(self.send_history)>5:
                                 self.send_history.pop(0)
                 
                         
         ##congestion control. For return values 0=send, 1=store, 2=drop
 	def do_congestion_control(self, packet_size):
-                #send history has nothing in it we can send immediatly
-                if(len(self.send_history) ==0 ):
+                #send history is short we can send immediatly
+                if(len(self.send_history) < self.send_history_list_max_len ):
                         return 0;
                 #if packet_queue is at max length we need to send those packets first
                 #and can drop the current packet. If the max len is zero dont drop 
@@ -129,12 +143,13 @@ class Client():
                         return 1;
                 
                 #calculate the sending rate if current packet sent
-                bits_sent = 0
+                bits = 0
                 for tales in self.send_history:
-                        bits_sent = tales.packet_size;
-                bits_sent+=packet_size;
+                        bits = tales.packet_size;
+                bits+=packet_size;
                 time_dif = time.time() - self.send_history[0].time_sent
-                rate_in_bps = bits_sent / time_dif
+                rate_in_bps = bits / time_dif
+               #print("Congestion control: allowed bitrate = " + str(self.packet_sending_rate) + " -- proposed bitrate = " + str(rate_in_bps))
                 if(rate_in_bps < self.packet_sending_rate):
                         return 0
                 #if we reach here it means max queue len is zero and we cant send the packet
@@ -148,7 +163,6 @@ class Client():
 		print("Received a packet")
 		unpacker = packet_unpacker.Packet_unpacker() #unpack the packet
 		packet = unpacker.unpack(packet)
-		print("packet content"+ str(packet))
 		position = 3
 		self.heartbeats_sent = 0
 		self.timer_heartbeat = packet_settings.TIME_UNTIL_HEARTBEAT
@@ -274,7 +288,8 @@ class Client():
 			self.send_heartbeat()
 			
 		elif(status==packet_settings.DATA_TOO_LONG):
-			print("ERROR: adding heartbeat to packet resulted in DATA_TOO_LONG status code")
+			#print("ERROR: adding heartbeat to packet resulted in DATA_TOO_LONG status code")
+                        pass
 			
 		elif(status==packet_settings.OKAY):
 			self.prepare_to_send_packet() #heartbeats are sent immediatly
@@ -287,12 +302,13 @@ class Client():
 	def add_data(self, data):
 		status = self.current_packet.addData(data)
 		if(status==packet_settings.NOT_ENOUGH_SPACE):
-			print("server: not enough space in client. Data length = " + str(len(data)))
+			#print("server: not enough space in client. Data length = " + str(len(data)))
 			self.prepare_to_send_packet()
 			self.add_data(data)
 			
 		elif(status==packet_settings.DATA_TOO_LONG):
-			print("ERROR: adding data to packet resulted in DATA_TOO_LONG status code")
+                        pass
+			#print("ERROR: adding data to packet resulted in DATA_TOO_LONG status code. Data length = " + str(len(data)))
 			
 		elif(status==packet_settings.OKAY):
 			#if status okay do nothing
@@ -309,7 +325,8 @@ class Client():
 			self.add_ack(data, send_immediatly)
 			
 		elif(status==packet_settings.DATA_TOO_LONG):
-			print("ERROR: adding data to packet resulted in DATA_TOO_LONG status code")
+			#print("ERROR: adding data to packet resulted in DATA_TOO_LONG status code")
+                        pass
 			
 		elif(status==packet_settings.OKAY):
 			if(send_immediatly):
@@ -327,7 +344,8 @@ class Client():
 			self.prepare_to_send_packet()
 			self.add_nack(data)
 		elif(status==packet_settings.DATA_TOO_LONG):
-			print("ERROR: adding data to packet resulted in DATA_TOO_LONG status code")
+			#print("ERROR: adding data to packet resulted in DATA_TOO_LONG status code")
+			pass
 			
 		elif(status==packet_settings.OKAY):
 			return
@@ -342,7 +360,8 @@ class Client():
 			self.prepare_to_send_packet()
 			self.add_agr(req_id, sen_id, ans)
 		elif(status==packet_settings.DATA_TOO_LONG):
-			print("ERROR: adding data to packet resulted in DATA_TOO_LONG status code")
+			#print("ERROR: adding data to packet resulted in DATA_TOO_LONG status code")
+                        pass
 			
 		elif(status==packet_settings.OKAY):
 			return

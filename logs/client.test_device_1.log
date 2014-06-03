@@ -1,0 +1,538 @@
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '5', 'ts': '1401810674.3', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '6', 'ts': '1401810674.41', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '7', 'ts': '1401810676.27', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '8', 'ts': '1401810677.77', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '9', 'ts': '1401810680.06', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '10', 'ts': '1401810682.32', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '11', 'ts': '1401810686.74', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '12', 'ts': '1401810687.5', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '13', 'ts': '1401810688.95', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '14', 'ts': '1401810690.39', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '15', 'ts': '1401810691.14', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '16', 'ts': '1401810692.63', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '17', 'ts': '1401810694.47', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '18', 'ts': '1401810694.65', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '19', 'ts': '1401810697.76', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '7', 'ts': '1401811378.76', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '8', 'ts': '1401811378.89', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '9', 'ts': '1401811383.44', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '10', 'ts': '1401811386.49', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '11', 'ts': '1401811391.38', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '12', 'ts': '1401811395.93', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '13', 'ts': '1401811399.25', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '14', 'ts': '1401811404.19', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '15', 'ts': '1401811409.16', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '16', 'ts': '1401811412.27', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '17', 'ts': '1401811414.99', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '18', 'ts': '1401811415.83', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '19', 'ts': '1401811416.88', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '20', 'ts': '1401811418.77', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '21', 'ts': '1401811420.25', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '22', 'ts': '1401811421.67', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '23', 'ts': '1401811423.78', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '24', 'ts': '1401811426.95', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '25', 'ts': '1401811430.7', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '26', 'ts': '1401811432.08', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '27', 'ts': '1401811435.79', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '28', 'ts': '1401811436.77', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '29', 'ts': '1401811437.32', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '30', 'ts': '1401811437.89', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '31', 'ts': '1401811442.48', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '32', 'ts': '1401811445.6', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '33', 'ts': '1401811446.6', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '34', 'ts': '1401811450.81', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '35', 'ts': '1401811453.16', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '36', 'ts': '1401811455.1', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '37', 'ts': '1401811455.38', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '38', 'ts': '1401811457.35', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '39', 'ts': '1401811457.93', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '40', 'ts': '1401811460.84', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '41', 'ts': '1401811465.39', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '42', 'ts': '1401811469.04', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '43', 'ts': '1401811470.63', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '35', 'ts': '1401812527.25', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '36', 'ts': '1401812531.85', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '37', 'ts': '1401812533.59', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '38', 'ts': '1401812533.97', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '39', 'ts': '1401812535.88', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '40', 'ts': '1401812540.84', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '53', 'ts': '1401812579.54', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '54', 'ts': '1401812583.36', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '55', 'ts': '1401812588.11', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '56', 'ts': '1401812590.11', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '57', 'ts': '1401812592.1', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '58', 'ts': '1401812594.9', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '59', 'ts': '1401812598.95', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '60', 'ts': '1401812601.09', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '61', 'ts': '1401812605.33', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '62', 'ts': '1401812607.66', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '63', 'ts': '1401812609.83', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '64', 'ts': '1401812612.51', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '65', 'ts': '1401812616.76', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '66', 'ts': '1401812619.06', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '67', 'ts': '1401812623.6', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '68', 'ts': '1401812626.27', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '69', 'ts': '1401812630.76', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '70', 'ts': '1401812633.71', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '71', 'ts': '1401812634.59', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '72', 'ts': '1401812636.51', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '73', 'ts': '1401812636.74', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '74', 'ts': '1401812637.7', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '75', 'ts': '1401812639.08', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '76', 'ts': '1401812639.72', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '77', 'ts': '1401812641.54', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '78', 'ts': '1401812644.39', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '6', 'ts': '1401812886.21', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '7', 'ts': '1401812890.74', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '8', 'ts': '1401812891.53', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '9', 'ts': '1401812893.41', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '10', 'ts': '1401812896.48', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '11', 'ts': '1401812900.65', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '12', 'ts': '1401812901.81', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '13', 'ts': '1401812902.59', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '14', 'ts': '1401812904.67', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '15', 'ts': '1401812908.27', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '16', 'ts': '1401812911.09', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '17', 'ts': '1401812915.35', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '18', 'ts': '1401812918.97', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '19', 'ts': '1401812921.84', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '20', 'ts': '1401812922.17', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '21', 'ts': '1401812926.64', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '22', 'ts': '1401812930.63', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '23', 'ts': '1401812932.72', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '24', 'ts': '1401812933.91', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '25', 'ts': '1401812935.75', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '26', 'ts': '1401812940.71', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '27', 'ts': '1401812943.12', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '28', 'ts': '1401812943.54', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '29', 'ts': '1401812948.41', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '30', 'ts': '1401812949.85', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '31', 'ts': '1401812951.45', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '32', 'ts': '1401812955.56', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '33', 'ts': '1401812957.0', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '34', 'ts': '1401812959.4', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '35', 'ts': '1401812961.15', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '36', 'ts': '1401812965.49', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '37', 'ts': '1401812967.01', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '38', 'ts': '1401812968.51', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '39', 'ts': '1401812970.64', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '40', 'ts': '1401812975.01', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '41', 'ts': '1401812978.58', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '42', 'ts': '1401812983.12', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '43', 'ts': '1401812987.43', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '4', 'ts': '1401816165.75', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '5', 'ts': '1401816170.5', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '6', 'ts': '1401816171.48', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '7', 'ts': '1401816172.78', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '8', 'ts': '1401816177.31', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '9', 'ts': '1401816178.27', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '11', 'ts': '1401816184.2', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '11', 'ts': '1401816184.2', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '12', 'ts': '1401816189.07', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '12', 'ts': '1401816189.07', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '13', 'ts': '1401816191.65', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '13', 'ts': '1401816191.65', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '15', 'ts': '1401816197.55', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '16', 'ts': '1401816199.08', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '16', 'ts': '1401816199.08', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '17', 'ts': '1401816202.8', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '18', 'ts': '1401816203.73', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '17', 'ts': '1401816202.8', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '18', 'ts': '1401816203.73', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '17', 'ts': '1401816202.8', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '18', 'ts': '1401816203.73', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '19', 'ts': '1401816208.45', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '19', 'ts': '1401816208.45', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '19', 'ts': '1401816208.45', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '20', 'ts': '1401816211.55', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '20', 'ts': '1401816211.55', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '21', 'ts': '1401816212.64', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '21', 'ts': '1401816212.64', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '22', 'ts': '1401816213.95', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '22', 'ts': '1401816213.95', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '23', 'ts': '1401816217.73', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '23', 'ts': '1401816217.73', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '20', 'ts': '1401816211.55', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '21', 'ts': '1401816212.64', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '22', 'ts': '1401816213.95', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '23', 'ts': '1401816217.73', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '24', 'ts': '1401816220.09', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '24', 'ts': '1401816220.09', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '25', 'ts': '1401816222.7', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '25', 'ts': '1401816222.7', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '24', 'ts': '1401816220.09', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '25', 'ts': '1401816222.7', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '26', 'ts': '1401816226.61', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '26', 'ts': '1401816226.61', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '26', 'ts': '1401816226.61', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '27', 'ts': '1401816229.95', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '28', 'ts': '1401816233.0', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '29', 'ts': '1401816235.18', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '27', 'ts': '1401816229.95', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '28', 'ts': '1401816233.0', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '29', 'ts': '1401816235.18', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '27', 'ts': '1401816229.95', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '28', 'ts': '1401816233.0', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '29', 'ts': '1401816235.18', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '30', 'ts': '1401816239.25', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '30', 'ts': '1401816239.25', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '31', 'ts': '1401816242.38', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '32', 'ts': '1401816243.1', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '31', 'ts': '1401816242.38', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '32', 'ts': '1401816243.1', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '30', 'ts': '1401816239.25', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '31', 'ts': '1401816242.38', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '32', 'ts': '1401816243.1', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '33', 'ts': '1401816247.91', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '33', 'ts': '1401816247.91', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '33', 'ts': '1401816247.91', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '34', 'ts': '1401816249.48', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '34', 'ts': '1401816249.48', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '35', 'ts': '1401816253.96', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '35', 'ts': '1401816253.96', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '36', 'ts': '1401816255.48', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '36', 'ts': '1401816255.48', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '34', 'ts': '1401816249.48', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '35', 'ts': '1401816253.96', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '36', 'ts': '1401816255.48', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '37', 'ts': '1401816258.41', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '37', 'ts': '1401816258.41', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '38', 'ts': '1401816260.34', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '39', 'ts': '1401816261.53', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '38', 'ts': '1401816260.34', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '39', 'ts': '1401816261.53', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '40', 'ts': '1401816265.34', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '40', 'ts': '1401816265.34', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '37', 'ts': '1401816258.41', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '38', 'ts': '1401816260.34', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '39', 'ts': '1401816261.53', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '40', 'ts': '1401816265.34', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '41', 'ts': '1401816268.7', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '41', 'ts': '1401816268.7', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '42', 'ts': '1401816271.37', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '42', 'ts': '1401816271.37', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '42', 'ts': '1401816271.37', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '43', 'ts': '1401816275.27', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '44', 'ts': '1401816277.53', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '43', 'ts': '1401816275.27', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '43', 'ts': '1401816275.27', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '44', 'ts': '1401816277.53', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '44', 'ts': '1401816277.53', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '4', 'ts': '1401816819.01', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '5', 'ts': '1401816820.08', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '4', 'ts': '1401817472.31', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '5', 'ts': '1401817473.48', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '6', 'ts': '1401817474.29', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '7', 'ts': '1401817477.09', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '5', 'ts': '1401817473.48', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '6', 'ts': '1401817474.29', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '7', 'ts': '1401817477.09', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '7', 'ts': '1401817477.09', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '9', 'ts': '1401817483.84', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '9', 'ts': '1401817483.84', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '9', 'ts': '1401817483.84', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '10', 'ts': '1401817484.74', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '11', 'ts': '1401817489.01', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '10', 'ts': '1401817484.74', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '11', 'ts': '1401817489.01', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '10', 'ts': '1401817484.74', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '11', 'ts': '1401817489.01', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '12', 'ts': '1401817493.29', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '12', 'ts': '1401817493.29', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '12', 'ts': '1401817493.29', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '13', 'ts': '1401817498.1', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '13', 'ts': '1401817498.1', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '14', 'ts': '1401817501.15', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '14', 'ts': '1401817501.15', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '15', 'ts': '1401817502.49', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '15', 'ts': '1401817502.49', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '16', 'ts': '1401817503.55', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '16', 'ts': '1401817503.55', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '13', 'ts': '1401817498.1', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '14', 'ts': '1401817501.15', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '15', 'ts': '1401817502.49', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '16', 'ts': '1401817503.55', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '17', 'ts': '1401817504.47', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '18', 'ts': '1401817506.04', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '17', 'ts': '1401817504.47', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '17', 'ts': '1401817504.47', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '18', 'ts': '1401817506.04', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '19', 'ts': '1401817510.65', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '20', 'ts': '1401817513.49', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '18', 'ts': '1401817506.04', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '19', 'ts': '1401817510.65', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '20', 'ts': '1401817513.49', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '19', 'ts': '1401817510.65', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'ON', 'seq_no': '20', 'ts': '1401817513.49', 'data_size': '2'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '21', 'ts': '1401817513.8', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '21', 'ts': '1401817513.8', 'data_size': '3'}
+
+Packet Content: {'dev_id': 'device_1', 'sensor_data': 'OFF', 'seq_no': '21', 'ts': '1401817513.8', 'data_size': '3'}
+

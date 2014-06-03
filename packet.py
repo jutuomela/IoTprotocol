@@ -67,10 +67,7 @@ class Packet():
 		return(status)
 
 	def addData(self,data):
-		print("PACKET: adding data")
 		status = self.check_data(data)
-		print("PACKET: status: " + str(status))
-		print("PACKET: data length: " +str(len(data)))
 		if status != packet_settings.OKAY:
 			return(status)
 
@@ -78,7 +75,6 @@ class Packet():
 		a = a|(packet_settings.TYPE_DC<<packet_settings.CHUNK_TYPE_SHIFT)
 		a = a|(0<<packet_settings.CHUNK_OPTIONS_SHIFT) #no options
 		a = a|(len(data)<<packet_settings.CHUNK_LEN_SHIFT) 
-		print("PACKET: header " + str(a))
 		self.packet_content += struct.pack(">L",a)
 		self.packet_content += data
 		data_added = True;
@@ -176,7 +172,7 @@ class Packet():
 		if(len(data) > int(pow(2,packet_settings.CHUNK_LENGTH_FIELD_LENGTH)-1)):
 			return packet_settings.DATA_TOO_LONG
 
-		if(len(data) > packet_settings.MAX_PACKET_LENGTH -2): #-2 is the header + chunk header length
+		if(len(data) > packet_settings.MAX_PACKET_LENGTH -5): #-2 is the header + chunk header length and -3 to stop some weird bug
 			return packet_settings.DATA_TOO_LONG
 
 		#check that packet has enough space
