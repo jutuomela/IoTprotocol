@@ -12,12 +12,13 @@ import signal
 
 class Server(): 
 
-	SENSOR_PORT = 6005
-	CLIENT_PORT = 6006
+	SENSOR_PORT = None
+	CLIENT_PORT = None
 	CLIENT_SOCKET = None
 	SENSOR_SOCKET = None
 	TIMER_INTERVAL = 2
 	VERSION = 1;
+	HOST = "127.0.0.1"
 
 	thread_lock = None #lock for synchronization
 	
@@ -32,6 +33,7 @@ class Server():
 		self.read_sensor_list()
 		if version == "2":
 			self.VERSION = 2
+			self.logData("Version = 2")
 		else:
 			self.VERSION = 1
 	
@@ -39,24 +41,24 @@ class Server():
 		try:
 			self.SENSOR_SOCKET = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 			self.SENSOR_SOCKET.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-			self.SENSOR_SOCKET.bind(('',self.SENSOR_PORT))
+			self.SENSOR_SOCKET.bind((self.HOST,self.SENSOR_PORT))
 		except socket.error, (errno,message):
 			if self.SENSOR_SOCKET:
 				self.SENSOR_SOCKET.close()
-			print "Server: error, failed to open sensor socket " + message
-			logData("Error, failed to open sensor socket.")
+			#print "Server: error, failed to open sensor socket " + message
+			self.logData("Error, failed to open sensor socket.")
 			sys.exit() #or do we want to exit, or just ignore it?
 				
 	def start_listening_client(self):
 		try:
 			self.CLIENT_SOCKET = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 			self.CLIENT_SOCKET.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-			self.CLIENT_SOCKET.bind(('',self.CLIENT_PORT))
+			self.CLIENT_SOCKET.bind((self.HOST,self.CLIENT_PORT))
 		except socket.error, (errno,message):
 			if self.CLIENT_SOCKET:
 				self.CLIENT.SOCKET.close()
-			print "Server: error, failed to open client socket " + message
-			logData("Error, failed to open client socket.")
+			#print "Server: error, failed to open client socket " + message
+			self.logData("Error, failed to open client socket.")
 			sys.exit() #or do we want to exit, or just ignore it?
 
 	
@@ -79,7 +81,6 @@ class Server():
 			read,write,error = select.select(CONNECTION_LIST,[],[])
 			
 			for sock in read:
-				
 				if sock == self.CLIENT_SOCKET:
 					data,addr = self.CLIENT_SOCKET.recvfrom(2048)
 
@@ -92,8 +93,8 @@ class Server():
 								break
 							#if we are on the last client and it doesnt match, then create new client
 							elif self.clients[-1] == c:
-								print "SERVER: New client connected from (%s, %s)" % addr
-								logData("New client connected from (%s, %s)" % addr)
+								##print "SERVER: New client connected from (%s, %s)" % addr
+								self.logData("New client connected from (%s, %s)" % addr)
 								newClient = server_client_rep.Client(self,addr)
 								self.clients.append(newClient)
 								newClient.threading_lock.acquire(1)
@@ -101,8 +102,8 @@ class Server():
 								newClient.threading_lock.release()
 					
 					else:
-						print "SERVER: First client connected from (%s, %s)" % addr
-						logData("New client connected from (%s, %s)" % addr)
+						#print "SERVER: First client connected from (%s, %s)" % addr
+						self.logData("New client connected from (%s, %s)" % addr)
 						newClient = server_client_rep.Client(self,addr)
 						self.clients.append(newClient)
 						newClient.threading_lock.acquire(1)
@@ -116,7 +117,7 @@ class Server():
 						sensorID = result.group(1)
                                                 self.update_sensor_info(sensorID, data)
 						#write received data to log
-						file = open("server_"+ sensorID +".log", "a")
+						file = open("logs/server_"+ sensorID +".log", "a")
 						file.write(str(time.time()))
 						file.write("\t")
 						file.write(data)
@@ -128,8 +129,8 @@ class Server():
 							c.received_packet_from_sensor(sensorID, data)
 							c.threading_lock.release()
 					else:
-						print "SERVER: Received unknown packet"	
-						logData("Received unknown packet from a sensor")
+						#print "SERVER: Received unknown packet"	
+						self.logData("Received unknown packet from a sensor")
 			
 			
 
@@ -157,20 +158,20 @@ class Server():
 		with open('sensor.list') as f:
 			sensor_list = f.readlines()
 			sensor_list = [x.strip('\n') for x in sensor_list]
-			print("Server: following sensors read")
-			print("\t"+str(sensor_list))
-			logData("Following sensors read from sensor.list")
-			logData("\t" + str(sensor_list))
+			#print("Server: following sensors read")
+			#print("\t"+str(sensor_list))
+			self.logData("Following sensors read from sensor.list")
+			self.logData("\t" + str(sensor_list))
                         for x in sensor_list:
                                 self.sensor_list.append(sensor.Sensor(x, re.search("(.*)_.*", x).group(1)))
 
         def stop_server(self):
-                print '\nSHUTTING DOWN SERVER ...'
-		logData("SHUTTING DOWN SERVER ...")
+                #print '\nSHUTTING DOWN SERVER ...'
+		self.logData("SHUTTING DOWN SERVER ...")
                 self.timerThread.stop()
                 self.timerThread.join(1)
-                print 'Server shut down'
-		logData('Server shut down')
+                #print 'Server shut down'
+		self.logData('Server shut down')
                 sys.exit(0)               
 
         def logData(self, msg):
@@ -206,8 +207,8 @@ class Server():
                                         #if time to send heartbeat
                                         if(c.timer_heartbeat <= 0):
                                                 c.threading_lock.acquire(1) #each client has a lock for sync
-                                                print("Server: timer thread sending heartbeat")
-						logData("timer thread sending heartbeat")
+                                                #print("Server: timer thread sending heartbeat")
+						server.logData("timer thread sending heartbeat")
                                                 c.send_heartbeat()
                                                 c.threading_lock.release()
                                         #if time to send packet
@@ -225,7 +226,7 @@ class Server():
 
 	#----------- END OF SERVER -----------#
 
-a_server=None
+
 
 
 def handler(signal, frame):
@@ -237,10 +238,12 @@ if __name__ == '__main__':
     	global a_server
 	
 	if(len(sys.argv)!=4):
-		print("Server: Usage: server.py <sensor-port> <client-port> <version>")
+		#print("Server: Usage: server.py <sensor-port> <client-port> <version>")
+		a_server.logData("Wrong inputs ... exiting")
 		sys.exit()
 
-    	a_server = server.Server(sys.argv[1], sys.argv[2], sys.argv[3])
+    	a_server = Server(sys.argv[1], sys.argv[2], sys.argv[3])
+	a_server.logData("Server starting to listen")
     	a_server.start_listening()
 
     	while True:           

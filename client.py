@@ -22,19 +22,21 @@ class Client_ui():
 		self.server_port = port
 		self.server_addr = address
 		self.name = name
+		self.logData(str(address)+":"+str(port) +"  name: " + name)
 		try: 
 			self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 			
 		except socket.error, (errno,message):
+			self.logData("Error opening socket")
 			if self.server_socket:
 				self.server_socket.close()
-			print "Client: ERROR - Failed to open socket " + message
+			#print "Client: ERROR - Failed to open socket " + message
 			sys.exit() #or do we want to exit, or just ignore it?
 
 	
 
 	def send_packet(self, packet):
-		self.server_socket.sendto(packet.get_packet(), (self.server_addr,self.server_port))
+		self.server_socket.sendto(packet.get_packet(), ("127.0.0.1",self.server_port))
 
 	def receive_data(self):
 		data, server = self.server_socket.recvfrom(4096)
@@ -46,7 +48,7 @@ class Client_ui():
 
                 ##simulate packet loss
                 #if random.randint(1,20)== 20:
-                #        print("client: packet lost on purpose")
+                #        #print("client: packet lost on purpose")
                 #        return
                 
 		unpacker = packet_unpacker.Packet_unpacker() 
@@ -75,16 +77,16 @@ class Client_ui():
                                 
 			if(packet[position] == packet_settings.TYPE_ACK):
 				##subscription was succesfull, datafield contains list of sensors should we retry sensors which are not listed? unsubcription was succedfull, datafield is empty
-				print("Client: received ack from server")
+				#print("Client: received ack from server")
 				self.logData("received ack from server")
 			if(packet[position] == packet_settings.TYPE_HB):
 				#respond with ACK, now
-                                print("Client: received heartbeat from server")
+                                #print("Client: received heartbeat from server")
                                 self.logData("Received heartbeat from server")
 				self.sendACK("")
 
 			if(packet[position] == packet_settings.TYPE_DC):
-                                print("Client: received data chunk from server")
+                                #print("Client: received data chunk from server")
                                 self.logData("Received data chunk from server")
 				#write received data to log
 				self.logContent("Packet Content: " + packet[position+3])
@@ -94,9 +96,8 @@ class Client_ui():
 					self.sendSUB(packet[position+3], 1)
 			
 			if(packet[position] == packet_settings.TYPE_AGR):
-				print("Client: received data chunk from server")
-				self.logData("Received data chunk from server")
-				self.logContent("Packet Content: " + packet[position+3])	
+				#print("Client: received data chunk from server")
+				self.logData("Received aggregate from server - Packet Content: " + packet[position+3] )
 
 
 			position+=4 #next chunk
@@ -156,7 +157,7 @@ class Client_ui():
 	def sendAGG(self,data):
                 self.logData("Sending AGG")
 		current_packet = packet.Packet(self.packet_seq_num) 
-		current_packet.addAGG("")
+		current_packet.addAGG(data)
 		self.send_packet(current_packet)
 		self.packet_seq_num = (self.packet_seq_num +1)%packet_settings.MAX_SEQ_NUM
 
@@ -171,31 +172,40 @@ def start_client(args):
     #a_client.start_listening()
     simtime = 160
     start = time.time()
-
+ 
     a_client = Client_ui(args[2],int(args[3]), args[1])
-    if(args[4] == 1):
+    a_client.logData(str(args))
+    if(args[4] == "1"):
 
 	    if(len(args) == 5):	#no sensor ids given, req sensor list from server and subscribe to all
+		a_client.logData("client started and sending req")
 		a_client.sendREQ()
 	    else:
 		length = len(args)
 		i = 5 
+		data=""
+
 		while i < length:
-			data = "\n".join(args[i])
+			data += args[i] + "\n"
 			i+=1
+		a_client.logData(str(data))
 		a_client.sendSUB(data,1)
     else:
 	    if(len(args) == 5):	#no sensor ids given, req sensor list from server and subscribe to all
+		a_client.logData("client started and sending req V2")
 		a_client.sendREQ()
 	    else:
-		data = '1234;' + args[6] + ';mean'
-	    	a_client.sendAGG(data,1)
+		
+		data = '1234;' + args[5] + ';mean;'
+		a_client.sendAGG(data)	
 		length = len(args)
-		i = 7 
+		i = 5
+		data1=""
 		while i < length:
-			data = "\n".join(args[i])
+			data1 += args[i] + "\n"
 			i+=1
-		a_client.sendSUB(data,1)		
+		a_client.sendSUB(data1,0)
+	
     while(1):
 	a_client.receive_data()
 	if(time.time() - start >= simtime):
@@ -208,6 +218,7 @@ def handler(signal, frame):
 
 if __name__ == '__main__':
     signal.signal(signal.SIGINT, handler)
+
 
     if(len(sys.argv) < 5):
 	print("Too few arguments. Usage: <name> <server_ip> <server_port> <version_num> <[list of sensor ids]>")

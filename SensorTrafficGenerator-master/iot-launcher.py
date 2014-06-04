@@ -22,7 +22,7 @@ def main(argv):
   s_port="5000"
   c_port="5001"
   sim_time=200 #seconds
-  N=1 #or >4 (number of sensors)
+  N=4 #or >4 (number of sensors)
   
   if(len(argv)>=2):
      ipaddr=argv[0]
@@ -38,19 +38,14 @@ def main(argv):
   else:
     print "using Launcher defaults =>"
 
-  print "ip",ipaddr,"and port:",port
+  print "ip",ipaddr,"and sensor port:",s_port
   print "sim_time",sim_time
   print "number of sensors",N
   
   start_time = round(time.time(), 3)
-  #[STEP1]: starting IoT Server to handle input from sensors
-  # NOTE: depending on your coding language the values in the list will change
-  # Also implement SIGINT (Ctrl+C), so that we can kill them. 
-  #spawns.append(subprocess.Popen(["iot-server.o", ipaddr, port],stdout=False,shell=False))
-  spawns.append(subprocess.Popen(["python","../server.py", s_port, c_port, version],stdout=False,shell=False))
-  
-  #[STEP2]: starting sensors
-  sensors=["device", "temp", "gps", "camera"]
+
+  #[STEP1]: starting sensors
+  sensors=["temp", "device", "gps", "camera"]
   
   #creating sensor.list
   sensorFile = open('sensor.list', 'wb')
@@ -64,15 +59,23 @@ def main(argv):
       sensor_type=random.choice(sensors)
       sid=str(random.randint(10000,99999))
     
-    print "starting",(sensor_type+sid),"..."
-    sensorFile.write(str(sensor_type+sid+"\n"))
+    print "starting",(sensor_type+"_"+sid),"..."
+    sensorFile.write(str(sensor_type+"_"+sid+"\n"))
     #forking a subprocess 
     spawns.append(subprocess.Popen(["python","sensor.py", sensor_type, ipaddr, s_port, sid],stdout=False,shell=False))
     #print spawns[i].pid
     #spawns[i].wait()
   
   #close sensor.list file
-  sensorFile.close
+  sensorFile.close()
+
+  #[STEP2]: starting IoT Server to handle input from sensors
+  # NOTE: depending on your coding language the values in the list will change
+  # Also implement SIGINT (Ctrl+C), so that we can kill them. 
+  #spawns.append(subprocess.Popen(["iot-server.o", ipaddr, port],stdout=False,shell=False))
+  print("Starting server...")
+  spawns.append(subprocess.Popen(["python","../server.py", s_port, c_port, "1"],stdout=False,shell=False))
+  print("Server started.")
   
   '''
   [STEP3]: start your clients here
@@ -81,8 +84,9 @@ def main(argv):
   # for i in range(M): # where M is the number of clients. This should be added to the command line args if needed
   #   spawns.append(subprocess.Popen(["iot-client.o","ipaddr, port, sensorid],stdout=True,shell=False))
   '''
-  spawns.append(subprocess.Popen(["python","../client.py","name", ipaddr, port, sensorid],stdout=True,shell=False))
-
+  print("Starting clients...")
+  spawns.append(subprocess.Popen(["python","../client.py","name", ipaddr, c_port ,"1","temp_0", "device_1", "gps_2", "camera_3"],stdout=True,shell=False))
+  print("Clients started")
 
   time.sleep(sim_time)
   print "killing processes after", (time.time()-start_time)
