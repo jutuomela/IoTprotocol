@@ -92,7 +92,11 @@ class Client_ui():
 				if result == None: #DC = response to REQ
 					#subscribe to all the available sensors 
 					self.sendSUB(packet[position+3], 1)
-						
+			
+			if(packet[position] == packet_settings.TYPE_AGR):
+				print("Client: received data chunk from server")
+				self.logData("Received data chunk from server")
+				self.logContent("Packet Content: " + packet[position+3])	
 
 
 			position+=4 #next chunk
@@ -184,7 +188,7 @@ def start_client(args):
 	    if(len(args) == 5):	#no sensor ids given, req sensor list from server and subscribe to all
 		a_client.sendREQ()
 	    else:
-		data = '1234;' + args[6] + 'mean'
+		data = '1234;' + args[6] + ';mean'
 	    	a_client.sendAGG(data,1)
 		length = len(args)
 		i = 7 
