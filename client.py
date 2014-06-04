@@ -18,7 +18,6 @@ class Client_ui():
 
 	def __init__(self,address,port, name):
 		self.packet_seq_num = int(random.SystemRandom().random()) % packet_settings.MAX_SEQ_NUM
-		#self.packet_seq_num = struct.unpack(">L", self.packet_seq_num) ??
 		self.server_port = port
 		self.server_addr = address
 		self.name = name
@@ -36,7 +35,7 @@ class Client_ui():
 	
 
 	def send_packet(self, packet):
-		self.server_socket.sendto(packet.get_packet(), ("127.0.0.1",self.server_port))
+		self.server_socket.sendto(packet.get_packet(), (self.server_addr,self.server_port))
 
 	def receive_data(self):
 		data, server = self.server_socket.recvfrom(4096)
@@ -45,7 +44,7 @@ class Client_ui():
 
 	#possible chunk types: HB,DATA, ACK, , (v2 AGR, NACK)
 	def received_data_from_server(self, packet):
-
+		a_client.logData("receiving data")
                 ##simulate packet loss
                 #if random.randint(1,20)== 20:
                 #        #print("client: packet lost on purpose")

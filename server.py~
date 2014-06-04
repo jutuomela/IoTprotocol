@@ -33,6 +33,7 @@ class Server():
 		self.read_sensor_list()
 		if version == "2":
 			self.VERSION = 2
+			self.logData("Version = 2")
 		else:
 			self.VERSION = 1
 	
@@ -81,6 +82,7 @@ class Server():
 			
 			for sock in read:
 				if sock == self.CLIENT_SOCKET:
+					self.logData("packet received from client")
 					data,addr = self.CLIENT_SOCKET.recvfrom(2048)
 
 					if(len(self.clients)!=0):

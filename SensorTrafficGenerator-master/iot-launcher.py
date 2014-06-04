@@ -18,9 +18,9 @@ def signal_handler(signal, frame):
   sys.exit(0)
 
 def main(argv):
-  ipaddr="localhost"
-  s_port="5000"
-  c_port="5001"
+  ipaddr="127.0.0.1"
+  s_port="14636"
+  c_port="14584"
   sim_time=200 #seconds
   N=4 #or >4 (number of sensors)
   
@@ -85,7 +85,7 @@ def main(argv):
   #   spawns.append(subprocess.Popen(["iot-client.o","ipaddr, port, sensorid],stdout=True,shell=False))
   '''
   print("Starting clients...")
-  spawns.append(subprocess.Popen(["python","../client.py","name", ipaddr, c_port ,"1","temp_0", "device_1", "gps_2", "camera_3"],stdout=True,shell=False))
+  spawns.append(subprocess.Popen(["python","../client.py","name", ipaddr, c_port ,"1"],stdout=True,shell=False))
   print("Clients started")
 
   time.sleep(sim_time)

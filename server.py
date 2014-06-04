@@ -82,6 +82,7 @@ class Server():
 			
 			for sock in read:
 				if sock == self.CLIENT_SOCKET:
+					self.logData("packet received from client")
 					data,addr = self.CLIENT_SOCKET.recvfrom(2048)
 
 					if(len(self.clients)!=0):
@@ -109,6 +110,7 @@ class Server():
 						newClient.threading_lock.acquire(1)
 						newClient.received_packet_from_client(data)
 						newClient.threading_lock.release()
+
 				if sock == self.SENSOR_SOCKET:
 					data,addr = self.SENSOR_SOCKET.recvfrom(2048)			
 					result = re.search("'dev_id': '(.*?)'",data)
