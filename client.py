@@ -4,7 +4,7 @@ import packet_settings, packet_unpacker
 import struct 
 import re, random
 import time
-	
+import signal,sys	
 
 class Client_ui(): 
 
@@ -149,6 +149,89 @@ class Client_ui():
 		self.send_packet(current_packet)
 		self.packet_seq_num = (self.packet_seq_num +1)%packet_settings.MAX_SEQ_NUM	
 			
+	def sendAGG(self,data):
+                self.logData("Sending AGG")
+		current_packet = packet.Packet(self.packet_seq_num) 
+		current_packet.addAGG("")
+		self.send_packet(current_packet)
+		self.packet_seq_num = (self.packet_seq_num +1)%packet_settings.MAX_SEQ_NUM
+
+
+
+
+a_client=None
+
+def start_client(args):
+    global a_client 
+    #a_client = server.Server('127.0.0.1')
+    #a_client.start_listening()
+    simtime = 160
+    start = time.time()
+
+    a_client = Client_ui(args[2],int(args[3]), args[1])
+    if(args[4] == 1):
+
+	    if(len(args) == 5):	#no sensor ids given, req sensor list from server and subscribe to all
+		a_client.sendREQ()
+	    else:
+		length = len(args)
+		i = 5 
+		while i < length:
+			data = "\n".join(args[i])
+			i+=1
+		a_client.sendSUB(data,1)
+    else:
+	    if(len(args) == 5):	#no sensor ids given, req sensor list from server and subscribe to all
+		a_client.sendREQ()
+	    else:
+		data = '1234;' + args[6] + 'mean'
+	    	a_client.sendAGG(data,1)
+		length = len(args)
+		i = 7 
+		while i < length:
+			data = "\n".join(args[i])
+			i+=1
+		a_client.sendSUB(data,1)		
+    while(1):
+	a_client.receive_data()
+	if(time.time() - start >= simtime):
+		a_client.sendUNSUB('',1)	#unsub all
+
+
+
+def handler(signal, frame):
+    sys.exit(0)
+
+if __name__ == '__main__':
+    signal.signal(signal.SIGINT, handler)
+
+    if(len(sys.argv) < 5):
+	print("Too few arguments. Usage: <name> <server_ip> <server_port> <version_num> <[list of sensor ids]>")
+	sys.exit(0)
+    else:
+	start_client(sys.argv)
+	while True:           
+            signal.pause()
+
+        
+
+
+
+#python, name, server_ip, server_port, [list of sensor ids] temp_0, temp_1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
