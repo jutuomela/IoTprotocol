@@ -14,10 +14,9 @@ class Server():
 
 	SENSOR_PORT = 6005
 	CLIENT_PORT = 6006
-	HOST = None #'127.0.0.1' localhost is it ok?
 	CLIENT_SOCKET = None
 	SENSOR_SOCKET = None
-	TIMER_INTERVAL = 2
+	TIMER_INTERVAL = 2s
 	VERSION = 1;
 
 	thread_lock = None #lock for synchronization
@@ -26,31 +25,38 @@ class Server():
 	sensor_list = []## list of available sensors
 
 
-	def __init__(self,host):
-		self.HOST = host
+	def __init__(self,s_port, c_port, version):
+		self.SENSOR_PORT = int(s_port)
+		self.CLIENT_PORT = int(c_port)
 		self.thread_lock = threading.Lock()
 		self.read_sensor_list()
+		if version == "2":
+			self.VERSION = 2
+		else:
+			self.VERSION = 1
 	
 	def start_listening_sensor(self):
 		try:
 			self.SENSOR_SOCKET = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 			self.SENSOR_SOCKET.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-			self.SENSOR_SOCKET.bind((self.HOST,self.SENSOR_PORT))
+			self.SENSOR_SOCKET.bind(('',self.SENSOR_PORT))
 		except socket.error, (errno,message):
 			if self.SENSOR_SOCKET:
 				self.SENSOR_SOCKET.close()
 			print "Server: error, failed to open sensor socket " + message
+			logData("Error, failed to open sensor socket.")
 			sys.exit() #or do we want to exit, or just ignore it?
 				
 	def start_listening_client(self):
 		try:
 			self.CLIENT_SOCKET = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 			self.CLIENT_SOCKET.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-			self.CLIENT_SOCKET.bind((self.HOST,self.CLIENT_PORT))
+			self.CLIENT_SOCKET.bind(('',self.CLIENT_PORT))
 		except socket.error, (errno,message):
 			if self.CLIENT_SOCKET:
 				self.CLIENT.SOCKET.close()
 			print "Server: error, failed to open client socket " + message
+			logData("Error, failed to open client socket.")
 			sys.exit() #or do we want to exit, or just ignore it?
 
 	
@@ -87,6 +93,7 @@ class Server():
 							#if we are on the last client and it doesnt match, then create new client
 							elif self.clients[-1] == c:
 								print "SERVER: New client connected from (%s, %s)" % addr
+								logData("New client connected from (%s, %s)" % addr)
 								newClient = server_client_rep.Client(self,addr)
 								self.clients.append(newClient)
 								newClient.threading_lock.acquire(1)
@@ -95,6 +102,7 @@ class Server():
 					
 					else:
 						print "SERVER: First client connected from (%s, %s)" % addr
+						logData("New client connected from (%s, %s)" % addr)
 						newClient = server_client_rep.Client(self,addr)
 						self.clients.append(newClient)
 						newClient.threading_lock.acquire(1)
@@ -121,6 +129,7 @@ class Server():
 							c.threading_lock.release()
 					else:
 						print "SERVER: Received unknown packet"	
+						logData("Received unknown packet from a sensor")
 			
 			
 
@@ -150,16 +159,27 @@ class Server():
 			sensor_list = [x.strip('\n') for x in sensor_list]
 			print("Server: following sensors read")
 			print("\t"+str(sensor_list))
+			logData("Following sensors read from sensor.list")
+			logData("\t" + str(sensor_list))
                         for x in sensor_list:
                                 self.sensor_list.append(sensor.Sensor(x, re.search("(.*)_.*", x).group(1)))
-                                
+
         def stop_server(self):
                 print '\nSHUTTING DOWN SERVER ...'
+		logData("SHUTTING DOWN SERVER ...")
                 self.timerThread.stop()
                 self.timerThread.join(1)
                 print 'Server shut down'
+		logData('Server shut down')
                 sys.exit(0)               
 
+        def logData(self, msg):
+                file = open("./logs/server"+".log", "a")
+		file.write(str(time.time()))
+		file.write("\t")
+		file.write(msg)
+                file.write("\n")
+                file.close()
 
 	#thread that will handle the timers in each client
 	class timer_Thread(threading.Thread):
@@ -187,13 +207,13 @@ class Server():
                                         if(c.timer_heartbeat <= 0):
                                                 c.threading_lock.acquire(1) #each client has a lock for sync
                                                 print("Server: timer thread sending heartbeat")
+						logData("timer thread sending heartbeat")
                                                 c.send_heartbeat()
                                                 c.threading_lock.release()
                                         #if time to send packet
                                         if(c.timer_packet <= 0):
                                                 c.threading_lock.acquire(1)
                                                 if(len(c.current_packet.get_packet()) > 1 ):
-                                                        print("Server: timer thread sending current packet")
                                                         c.prepare_to_send_packet()
 
                                                 c.threading_lock.release()
@@ -201,8 +221,31 @@ class Server():
                 def stop(self):
                         self.stop = True
 		
+	#----------- END OF TIMER_THREAD ------------#
+
+	#----------- END OF SERVER -----------#
+
+a_server=None
 
 
+def handler(signal, frame):
+    a_server.stop_server()
+    sys.exit(0)
+
+if __name__ == '__main__':
+	signal.signal(signal.SIGINT, handler)
+    	global a_server
+	
+	if(len(sys.argv)!=4):
+		print("Server: Usage: server.py <sensor-port> <client-port> <version>")
+		sys.exit()
+
+    	a_server = server.Server(sys.argv[1], sys.argv[2], sys.argv[3])
+    	a_server.start_listening()
+
+    	while True:           
+        	signal.pause()	
 			
-			
+
+
 					

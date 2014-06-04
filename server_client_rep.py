@@ -10,8 +10,6 @@ import time
 import random
 
 
-####TODO: CHECK len and getsizeof usage #######
-
 #client class used in server to represent client
 class Client():
 
@@ -37,7 +35,6 @@ class Client():
 	bits_sent = 0
 	dropped_packets = 0
         
- 
 
 	
 	def __init__(self, server, client_addr):
@@ -98,7 +95,6 @@ class Client():
 	def send_packet_in_queue_thread(self):
                 
                 self.queue_thread_lock.acquire(1)
-                print("queue thread starting")
                 while(len(self.packet_queue)>0): #while check is always done inside lock.
                         
                         #calculate how long we need to sleep to send the next packet
@@ -110,8 +106,7 @@ class Client():
                         sleep_time = time_future - time.time();
                         if sleep_time > 0:
                                 time.sleep(sleep_time)
-                        self.queue_thread_lock.acquire(1) # lock here again both so we send one thing at a time and to ensure poping goes smoothly
-                        print "queue thread sending packet"     
+                        self.queue_thread_lock.acquire(1) # lock here again both so we send one thing at a time and to ensure poping goes smoothly   
                         self.send_packet(packet_queue.pop(0))
 
                 self.queue_thread_lock.release()
@@ -150,6 +145,7 @@ class Client():
                 time_dif = time.time() - self.send_history[0].time_sent
                 rate_in_bps = bits / time_dif
                #print("Congestion control: allowed bitrate = " + str(self.packet_sending_rate) + " -- proposed bitrate = " + str(rate_in_bps))
+		#server.logData("Congestion control: allowed bitrate = " + str(self.packet_sending_rate) + " -- proposed bitrate = " + str(rate_in_bps))
                 if(rate_in_bps < self.packet_sending_rate):
                         return 0
                 #if we reach here it means max queue len is zero and we cant send the packet
