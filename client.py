@@ -154,5 +154,67 @@ class Client_ui():
 
 
 
+a_client=None
+
+def start_client(self, args):
+    global a_client 
+    #a_client = server.Server('127.0.0.1')
+    #a_client.start_listening()
+    a_client = client.Client_ui(args[2],args[3], args[1])
+
+    if(len(args) == 4):	#no sensor ids given, req sensor list from server and subscribe to all
+	a_client.sendREQ()
+    else:
+	length = len(args)
+	i = 4 
+	while i < length
+		data = "\n".join(args[i])
+		i+=1
+	a_client.sendSUB(data,1)
+
+
+    while(1):
+	a_client.receive_data()
+
+
+
+def handler(signal, frame):
+    sys.exit(0)
+
+if __name__ == '__main__':
+    signal.signal(signal.SIGINT, handler)
+
+    if(len(sys.argv) < 4):
+	print("Too few arguments. Usage: <name> <server_ip> <server_port> <[list of sensor ids]>
+	sys.exit(0)
+    else:
+	start_client(sys.argv)
+	while True:           
+            signal.pause()
+
+        
+
+
+
+#python, name, server_ip, server_port, [list of sensor ids] temp_0, temp_1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
