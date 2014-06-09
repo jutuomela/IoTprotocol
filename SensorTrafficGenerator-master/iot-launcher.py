@@ -7,6 +7,7 @@ import random
 import signal
 import time
 
+
 spawns=[] #list of subprocesses spawned 
 
 def usage():
@@ -19,8 +20,8 @@ def signal_handler(signal, frame):
 
 def main(argv):
   ipaddr="127.0.0.1"
-  s_port="14636"
-  c_port="14584"
+  s_port="12222"
+  c_port="13333"
   sim_time=200 #seconds
   N=4 #or >4 (number of sensors)
   
@@ -73,8 +74,9 @@ def main(argv):
   # NOTE: depending on your coding language the values in the list will change
   # Also implement SIGINT (Ctrl+C), so that we can kill them. 
   #spawns.append(subprocess.Popen(["iot-server.o", ipaddr, port],stdout=False,shell=False))
+
   print("Starting server...")
-  spawns.append(subprocess.Popen(["python","../server.py", s_port, c_port, "1"],stdout=False,shell=False))
+  spawns.append(subprocess.Popen(["python","../server.py", s_port, c_port, "2"],stdout=False,shell=False))
   print("Server started.")
   
   '''
@@ -84,8 +86,9 @@ def main(argv):
   # for i in range(M): # where M is the number of clients. This should be added to the command line args if needed
   #   spawns.append(subprocess.Popen(["iot-client.o","ipaddr, port, sensorid],stdout=True,shell=False))
   '''
+  time.sleep(2)
   print("Starting clients...")
-  spawns.append(subprocess.Popen(["python","../client.py","name", ipaddr, c_port ,"1"],stdout=True,shell=False))
+  spawns.append(subprocess.Popen(["python","../clientv2.py","name", ipaddr, c_port ,"2","temp_0", "device_1", "gps_2", "camera_3"],stdout=True,shell=False))
   print("Clients started")
 
   time.sleep(sim_time)

@@ -229,29 +229,32 @@ class Client():
 				self.add_data(response)	
 				self.prepare_to_send_packet()
 				#print("Received req from client")
+				
+			self.server.logData("Version: "+str(self.server.VERSION)+" packet type: " +str(packet[position]))
 
-          		if self.server.VERSION == 2:
+          		if (self.server.VERSION == 2):
 		            if(packet[position] == packet_settings.TYPE_AGG):
-		                    req=re.findall("(.*);", packet[position+3])
+                                    
+		                    req=re.findall("(.*?);", packet[position+3])
+		                    self.server.logData(str(req))
 		                    if(len(req)>=3):
 		                            req_id=req[0] # request id
 		                            sensor_name=req[1] # sensor id
 		                            agg = req[2]  # type of aggregate request
 		                            sensor = None
-		                            for x in server.sensor_list:
+		                            for x in self.server.sensor_list:
 
 		                                    if sensor_name==x.sname:
 		                                            sensor = x
 		                                            break
 		                            if sensor == None:
-						   self.logData("Sensor not found.")
+						   server.logData("Sensor not found.")
 		                                   self.add_nack(req_id)
 		                                   return
-		                            if sensor.type=="camera" or sensor.type == "asd" or sensor.type == "gps":
+		                            if sensor.stype=="camera" or sensor.stype == "asd" or sensor.stype == "gps":
 		                                    self.add_nack(req_id)
 		                                    return
 		                            ans=None;
-					    self.logData("aggregate = " + agg)
 		                            if agg == "min":
 		                                    ans=sensor.get_min()
 		                            if agg == "max":
@@ -263,11 +266,13 @@ class Client():
 		                                    
 		                            if ans==None:
 		                                   self.add_nack(req_id)
+		                                   server.logData("rule not found")
 		                                   return;
 		                            else:
 		                                	self.add_agr(req_id, sensor_name, ans)
+		                                	self.server.logData("answer: " + str(ans))
                 	           	    if(len(self.sensor_list)==0):
-	                    					self.server.remove_client(self)
+	                    				self.server.remove_client(self)
 		                           
                                 
                           
@@ -357,7 +362,7 @@ class Client():
 			server.logData("ERROR: unknown status code returned by add_data(self, data)")
 
 	def add_agr(self, req_id, sen_id, ans):
-                status = self.current_packet.addagr(req_id+";"+sen_id+";"+ans+";")
+                status = self.current_packet.addAGR(str(req_id)+";"+str(sen_id)+";"+str(ans)+";")
 		if(status==packet_settings.NOT_ENOUGH_SPACE):
 			self.prepare_to_send_packet()
 			self.add_agr(req_id, sen_id, ans)
