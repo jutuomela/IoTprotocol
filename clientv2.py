@@ -50,9 +50,9 @@ class Client_ui():
 	def received_data_from_server(self, packet):
 		a_client.logData("receiving data")
                 ##simulate packet loss
-                #if random.randint(1,20)== 20:
-                #        #print("client: packet lost on purpose")
-                #        return
+                if random.randint(1,20)== 20:
+                        #print("client: packet lost on purpose")
+                        return
                 
 		unpacker = packet_unpacker.Packet_unpacker() 
 		packet = unpacker.unpack(packet)
@@ -215,8 +215,8 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, handler)
 
 
-    if(len(sys.argv) == 4):
-	print("Error. Usage: <name> <server_ip> <server_port> <version_num> <[list of sensor ids]>")
+    if(len(sys.argv) !=5 ):
+	print("Error. Usage: <name> <server_ip> <server_port> <version_num> ")
 	sys.exit(0)
     else:
 	start_client(sys.argv)
@@ -226,8 +226,6 @@ if __name__ == '__main__':
         
 
 
-
-#python, name, server_ip, server_port, [list of sensor ids] temp_0, temp_1
 
 
 

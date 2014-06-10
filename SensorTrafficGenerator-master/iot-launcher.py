@@ -76,7 +76,7 @@ def main(argv):
   #spawns.append(subprocess.Popen(["iot-server.o", ipaddr, port],stdout=False,shell=False))
 
   print("Starting server...")
-  spawns.append(subprocess.Popen(["python","../server.py", s_port, c_port, "2"],stdout=False,shell=False))
+  spawns.append(subprocess.Popen(["python","../server.py", s_port, c_port, "1"],stdout=False,shell=False))
   print("Server started.")
   
   '''
@@ -88,7 +88,7 @@ def main(argv):
   '''
   time.sleep(2)
   print("Starting clients...")
-  spawns.append(subprocess.Popen(["python","../clientv2.py","name", ipaddr, c_port ,"2","temp_0", "device_1", "gps_2", "camera_3"],stdout=True,shell=False))
+  spawns.append(subprocess.Popen(["python","../clientv2.py","client1", ipaddr, c_port, "1"],stdout=True,shell=False))
   print("Clients started")
 
   time.sleep(sim_time)
